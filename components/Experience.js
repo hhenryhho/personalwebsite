@@ -86,7 +86,7 @@ const Experience = () => {
 
 	return (
 		<FadeInSection id='experience' direction='fromBottom'>
-			<Flex h={['100vh', '60vh']} flexDir='column'>
+			<Flex h={['70vh', '60vh']} flexDir='column'>
 				<Heading size='3xl'>Experience</Heading>
 				<Divider my='15px'></Divider>
 				<Flex flexDir='column' maxW='700px'>

@@ -71,17 +71,24 @@ const Intro = () => {
 						}}></Typewriter>
 				</Heading>
 			</Box>
-			<Stack mt='100px' spacing='15px' zIndex={2}>
-				{contactButtonGroupItems.map((item, index) => (
-					<Box key={index}>{item}</Box>
-				))}
-			</Stack>
-			<Box
-				position='absolute'
-				left={10}
-				w={['300px', '500px']}
-				zIndex={1}>
-				<BlobSVG />
+			<Box position='relative'>
+				<Box
+					position='absolute'
+					left={['-80px', '-250px']}
+					w={['400px', '500px']}>
+					<BlobSVG />
+				</Box>
+				<Stack mt={['150px', '190px']} spacing='15px'>
+					{contactButtonGroupItems.map((item, index) => (
+						<Box
+							key={index}
+							align={
+								isLargerThan768 ? 'start' : 'center'
+							}>
+							{item}
+						</Box>
+					))}
+				</Stack>
 			</Box>
 		</Flex>
 	)

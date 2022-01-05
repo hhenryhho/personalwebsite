@@ -24,7 +24,7 @@ const FeaturedProjects = ({ projects }) => {
 				<Heading size='3xl'>Projects</Heading>
 				<Divider my='15px'></Divider>
 				<Flex flexDir='column' pt='15px'>
-					<Stack spacing={100}>
+					<Stack spacing={[50, 200]}>
 						{projects.map((project) =>
 							isLargeScreen ? (
 								<ProjectCardLarge

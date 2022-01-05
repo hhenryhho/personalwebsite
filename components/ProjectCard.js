@@ -35,17 +35,22 @@ const ProjectCard = ({ project }) => {
 					/>
 				</Box>
 				<Box position='relative'>
-					<Stack p={2}>
-						<Flex
-							direction='row'
-							alignItems='center'></Flex>
-						<Stack>
-							<Flex flexWrap='wrap'>{Tags}</Flex>
-							<Divider />
-							<Text variant='lead'>
-								{project.description}
-							</Text>
-						</Stack>
+					<Stack spacing={3} pt={3}>
+						<Heading textAlign='Left' size='lg'>
+							<Link
+								href={project.siteLink}
+								isExternal
+								rel='noreferrer'
+								target='_blank'
+								aria-label='link to live project website'>
+								{project.title}
+							</Link>
+						</Heading>
+						<Flex flexWrap='wrap'>{Tags}</Flex>
+						<Divider />
+						<Text variant='lead'>
+							{project.description}
+						</Text>
 					</Stack>
 				</Box>
 			</Flex>

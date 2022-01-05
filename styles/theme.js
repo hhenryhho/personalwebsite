@@ -20,8 +20,8 @@ const overrides = {
 			275: '#5A5C5E', // Darker Silver
 			300: '#C5C6C7', // Silver
 			325: '#EAEBEB', // Lighter Silver
-			400: '#45A29E', // Fluorescent Blue (Highlight Blue)
-			500: '#45A29E', // Cadet Blue (Muted Blue)
+			highlight: '#4AF1F2', // Fluorescent Blue (Highlight Blue)
+			muted: '#45A29E', // Cadet Blue (Muted Blue)
 		},
 	},
 	styles: {
@@ -46,7 +46,7 @@ const overrides = {
 		},
 		Link: {
 			baseStyle: (props) => ({
-				color: mode('brand.200', 'brand.200')(props),
+				color: mode('brand.200', 'brand.highlight')(props),
 				_hover: {
 					color: mode('brand.325'),
 				},

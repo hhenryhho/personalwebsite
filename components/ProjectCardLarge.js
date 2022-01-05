@@ -25,6 +25,7 @@ const ProjectCardLarge = ({ project }) => {
 			<Image
 				borderRadius='xl'
 				objectFit='cover'
+				w={500}
 				src={project.previewImage}
 				alt={project.title}
 			/>
@@ -39,11 +40,11 @@ const ProjectCardLarge = ({ project }) => {
 						{project.title}
 					</Link>
 				</Heading>
-				<Box position='absolute' top={-75} left={0} w={500}>
+				<Box position='absolute' top={-50} w={500}>
 					<Box
 						position='absolute'
-						w='200px'
-						top={175}
+						w='315px'
+						top={200}
 						left={150}>
 						<Stack>
 							<Text>{project.description}</Text>

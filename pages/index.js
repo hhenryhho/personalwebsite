@@ -8,23 +8,17 @@ import Navbar from '../components/Navbar'
 import Experience from '../components/Experience'
 import { useMediaQuery } from '@chakra-ui/media-query'
 import FeaturedProjects from '../components/FeaturedProjects'
+import Footer from '../components/Footer'
 
 const Home = () => {
 	const workingProjects = [
 		{
 			title: 'Restock Bot',
 			siteLink: 'Website1',
-			previewImage: 'https://via.placeholder.com/500x300',
+			previewImage: 'monitor.gif',
 			techStack: ['Python', 'Heroku'],
 			description:
 				'A script that would notify users when certain products were restocked, and automatically buy them.',
-		},
-		{
-			title: 'Project Two',
-			siteLink: 'Website2',
-			previewImage: 'https://via.placeholder.com/500x300',
-			techStack: ['AngularJs', 'PostgresDb'],
-			description: 'Lorem ipsum',
 		},
 	]
 	const [isLargerThan600] = useMediaQuery('(min-width: 600px)')
@@ -40,6 +34,7 @@ const Home = () => {
 				<FeaturedProjects
 					projects={workingProjects}></FeaturedProjects>
 				{isLargerThan600 ? <Navbar /> : ''}
+				<Footer></Footer>
 			</Container>
 		</Flex>
 	)
