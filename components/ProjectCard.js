@@ -36,25 +36,9 @@ const ProjectCard = ({ project }) => {
 				</Box>
 				<Box position='relative'>
 					<Stack p={2}>
-						<Flex direction='row' alignItems='center'>
-							<Heading
-								flex={1}
-								textAlign='left'
-								variant='subtitle2'>
-								{project.githubLink && (
-									<Link
-										aria-label='link to project Github'
-										variant='icon'
-										href={githubLink}
-										isExternal
-										rel='noreferrer'
-										target='_blank'
-										p={2}>
-										<FaGithub size={'1.3rem'} />
-									</Link>
-								)}
-							</Heading>
-						</Flex>
+						<Flex
+							direction='row'
+							alignItems='center'></Flex>
 						<Stack>
 							<Flex flexWrap='wrap'>{Tags}</Flex>
 							<Divider />

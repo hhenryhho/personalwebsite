@@ -17,7 +17,8 @@ const Intro = () => {
 			href='https://resume.creddle.io/resume/3hnt1dw8xkg'
 			target='_blank'
 			leftIcon={<FaFilePdf />}
-			size={isLargerThan768 ? 'md' : 'sm'}>
+			size={isLargerThan768 ? 'md' : 'sm'}
+			key='Resume'>
 			Resume
 		</Button>,
 		<Button
@@ -25,7 +26,8 @@ const Intro = () => {
 			href='mailto:henryho73@hotmail.com'
 			target='_blank'
 			leftIcon={<EmailIcon />}
-			size={isLargerThan768 ? 'md' : 'sm'}>
+			size={isLargerThan768 ? 'md' : 'sm'}
+			key='Email'>
 			Email
 		</Button>,
 		<Button
@@ -33,7 +35,8 @@ const Intro = () => {
 			href='https://github.com/hhenryhho'
 			target='_blank'
 			leftIcon={<FaGithub />}
-			size={isLargerThan768 ? 'md' : 'sm'}>
+			size={isLargerThan768 ? 'md' : 'sm'}
+			key='Github'>
 			Github
 		</Button>,
 		<Button
@@ -41,7 +44,8 @@ const Intro = () => {
 			href='https://www.linkedin.com/in/henh/'
 			leftIcon={<FaLinkedin />}
 			target='_blank'
-			size={isLargerThan768 ? 'md' : 'sm'}>
+			size={isLargerThan768 ? 'md' : 'sm'}
+			key='Linkedin'>
 			LinkedIn
 		</Button>,
 	]
@@ -54,12 +58,11 @@ const Intro = () => {
 			pb={[50, 50]}
 			id='intro'>
 			<Box>
-				<Heading fontSize='4xl'>
+				<Heading fontSize={['3xl', '4xl']}>
 					<Typewriter
 						options={{
 							delay: 100,
 							skipAddStyles: true,
-							loop: true,
 						}}
 						onInit={(typewriter) => {
 							typewriter
@@ -73,7 +76,11 @@ const Intro = () => {
 					<Box key={index}>{item}</Box>
 				))}
 			</Stack>
-			<Box position='absolute' left={10} w='500px' zIndex={1}>
+			<Box
+				position='absolute'
+				left={10}
+				w={['300px', '500px']}
+				zIndex={1}>
 				<BlobSVG />
 			</Box>
 		</Flex>
