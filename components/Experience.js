@@ -46,14 +46,16 @@ const Experience = () => {
 								<Text>{tab.duration}</Text>
 							</Stack>
 							<Stack spacing='15px'>
-								{tab.description.map((line) => (
-									<Flex>
-										<chakra.p pt='4px'>
-											<FaAngleRight></FaAngleRight>
-										</chakra.p>
-										<Text>{line}</Text>
-									</Flex>
-								))}
+								{tab.description.map(
+									(line, index) => (
+										<Flex key={index}>
+											<chakra.p pt='4px'>
+												<FaAngleRight></FaAngleRight>
+											</chakra.p>
+											<Text>{line}</Text>
+										</Flex>
+									)
+								)}
 							</Stack>
 						</TabPanel>
 					))}
