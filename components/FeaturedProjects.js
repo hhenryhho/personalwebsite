@@ -17,7 +17,7 @@ const FeaturedProjects = ({ projects }) => {
 		if (isLargerThan600 !== isLargeScreen) {
 			setIsLargeScreen(isLargerThan600)
 		}
-	}, [isLargerThan600, isLargerThan600])
+	}, [isLargerThan600, isLargeScreen])
 	return (
 		<FadeInSection id='projects' direction='fromBottom'>
 			<Flex flexDir='column'>

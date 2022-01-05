@@ -15,7 +15,7 @@ const Home = () => {
 		{
 			title: 'Restock Bot',
 			siteLink: 'Website1',
-			previewImage: 'monitor.gif',
+			previewImage: '/monitor.gif',
 			techStack: ['Python', 'Heroku'],
 			description:
 				'A script that would notify users when certain products were restocked, and automatically buy them.',
@@ -33,8 +33,8 @@ const Home = () => {
 				<Experience></Experience>
 				<FeaturedProjects
 					projects={workingProjects}></FeaturedProjects>
-				{isLargerThan600 ? <Navbar /> : ''}
 				<Footer></Footer>
+				{isLargerThan600 ? <Navbar /> : ''}
 			</Container>
 		</Flex>
 	)
