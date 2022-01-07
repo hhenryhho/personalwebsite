@@ -10,14 +10,14 @@ import FadeInSection from './FadeInSection'
 import { Divider } from '@chakra-ui/react'
 
 const FeaturedProjects = ({ projects }) => {
-	const [isLargerThan600] = useMediaQuery('(min-width: 600px)')
+	const [isLargerThan992] = useMediaQuery('(min-width: 992px)')
 	const [isLargeScreen, setIsLargeScreen] = useState(false)
 
 	useEffect(() => {
-		if (isLargerThan600 !== isLargeScreen) {
-			setIsLargeScreen(isLargerThan600)
+		if (isLargerThan992 !== isLargeScreen) {
+			setIsLargeScreen(isLargerThan992)
 		}
-	}, [isLargerThan600, isLargeScreen])
+	}, [isLargerThan992, isLargeScreen])
 	return (
 		<FadeInSection id='projects' direction='fromBottom'>
 			<Flex flexDir='column'>

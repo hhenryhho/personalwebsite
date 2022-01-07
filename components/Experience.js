@@ -18,14 +18,14 @@ import { useMediaQuery } from '@chakra-ui/media-query'
 import FadeInSection from './FadeInSection'
 
 const Experience = () => {
-	const [isLargerThan600] = useMediaQuery('(min-width: 600px)')
+	const [isLargerThan992] = useMediaQuery('(min-width: 992px)')
 
 	function DataTabs({ data }) {
 		return (
 			<Tabs
 				variant='soft-rounded'
 				orientation={
-					isLargerThan600 ? 'vertical' : 'horizontal'
+					isLargerThan992 ? 'vertical' : 'horizontal'
 				}
 				pt='15px'>
 				<TabList>

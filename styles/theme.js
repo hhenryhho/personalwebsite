@@ -1,6 +1,7 @@
 /** @format */
 
 import { extendTheme } from '@chakra-ui/react'
+import { createBreakpoints } from '@chakra-ui/theme-tools'
 import { mode } from '@chakra-ui/theme-tools'
 
 const overrides = {
@@ -23,6 +24,15 @@ const overrides = {
 			highlight: '#4AF1F2', // Fluorescent Blue (Highlight Blue)
 			muted: '#45A29E', // Cadet Blue (Muted Blue)
 		},
+	},
+	breakpoints: createBreakpoints({
+		sm: '62em',
+		md: '62em',
+		lg: '80em',
+		xl: '80em',
+	}),
+	config: {
+		initialColorMode: 'dark',
 	},
 	styles: {
 		global: (props) => ({
@@ -56,6 +66,5 @@ const overrides = {
 }
 
 const customTheme = extendTheme(overrides)
-// console.log(customTheme);
 
 export default customTheme

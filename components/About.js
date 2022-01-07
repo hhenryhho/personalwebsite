@@ -13,7 +13,7 @@ import FadeInSection from './FadeInSection'
 const About = () => {
 	return (
 		<FadeInSection id='about' direction='fromBottom'>
-			<Flex h={['110vh', '60vh']} flexDir='column'>
+			<Flex mb={100} flexDir='column'>
 				<Heading size='3xl'>About me</Heading>
 				<Divider my='15px'></Divider>
 				<Flex flexDir={['column', 'row']}>
@@ -34,10 +34,6 @@ const About = () => {
 							<b>App/Web developer</b> for the
 							department of Earth Sciences / Physics and
 							Astronomy at my University.
-						</Text>
-						<Text fontSize='lg'>
-							I love to learn, and I&apos;m interested
-							in all facets of software development.
 						</Text>
 						<Text fontSize='lg'>
 							In my spare time, I like to cook and play

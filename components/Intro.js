@@ -12,14 +12,14 @@ import Typewriter from 'typewriter-effect'
 import FadeInSection from './FadeInSection'
 
 const Intro = () => {
-	const [isLargerThan768] = useMediaQuery('(min-width: 600px)')
+	const [isLargerThan992] = useMediaQuery('(min-width: 992px)')
 	const [isLargeScreen, setIsLargeScreen] = useState(false)
 
 	useEffect(() => {
-		if (isLargerThan768 !== isLargeScreen) {
-			setIsLargeScreen(isLargerThan768)
+		if (isLargerThan992 !== isLargeScreen) {
+			setIsLargeScreen(isLargerThan992)
 		}
-	}, [isLargerThan768, isLargeScreen])
+	}, [isLargerThan992, isLargeScreen])
 	const contactButtonGroupItems = [
 		<Button
 			as={Link}
@@ -62,32 +62,32 @@ const Intro = () => {
 	return (
 		<Flex
 			flexDir='column'
-			h='100vh'
 			pt={[50, 150]}
-			pb={[50, 50]}
+			pb={[100, 100]}
 			id='intro'>
-			<Box>
-				<Heading fontSize={['3xl', '4xl']}>
-					<Typewriter
-						options={{
-							delay: 100,
-							skipAddStyles: true,
-						}}
-						onInit={(typewriter) => {
-							typewriter
-								.typeString('Hi, my name is Henry Ho')
-								.start()
-						}}></Typewriter>
+			<Flex
+				m='auto'
+				w='90%'
+				flexDir='column'
+				alignItems='center'>
+				<Text fontSize={['md', 'lg']}>Hi, my name is </Text>
+				<Heading fontSize={['xl', '4.3rem']}>
+					Henry Ho.
 				</Heading>
-			</Box>
-			<Box position='relative'>
-				<Box
-					position='absolute'
-					left={['-80px', '-250px']}
-					w={['400px', '500px']}>
-					<BlobSVG />
-				</Box>
-				<Stack mt={['150px', '190px']} spacing='15px'>
+				<Text textAlign='center' fontSize={['md', 'lg']}>
+					I am a software developer with a passion for
+					full-stack development.
+				</Text>
+				<Text textAlign='center' fontSize={['md', 'lg']}>
+					I love to learn new things and I am constantly
+					exploring new technology.
+				</Text>
+			</Flex>
+			<Flex m='auto' position='relative'>
+				<Stack
+					direction={isLargeScreen ? 'row' : 'column'}
+					mt={['50px', '100px']}
+					spacing='15px'>
 					{contactButtonGroupItems.map((item, index) => (
 						<Box
 							key={index}
@@ -98,7 +98,7 @@ const Intro = () => {
 						</Box>
 					))}
 				</Stack>
-			</Box>
+			</Flex>
 		</Flex>
 	)
 }

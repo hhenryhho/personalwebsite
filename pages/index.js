@@ -21,7 +21,7 @@ const Home = () => {
 				'A script that would notify users when certain products were restocked, and automatically buy them.',
 		},
 	]
-	const [isLargerThan600] = useMediaQuery('(min-width: 600px)')
+	const [isLargerThan992] = useMediaQuery('(min-width: 992px)')
 	return (
 		<Flex>
 			<Container maxW='container.lg'>
@@ -34,7 +34,7 @@ const Home = () => {
 				<FeaturedProjects
 					projects={workingProjects}></FeaturedProjects>
 				<Footer></Footer>
-				{isLargerThan600 ? <Navbar /> : ''}
+				{isLargerThan992 ? <Navbar /> : ''}
 			</Container>
 		</Flex>
 	)
