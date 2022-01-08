@@ -40,7 +40,7 @@ const Experience = () => {
 					{data.map((tab, index) => (
 						<TabPanel id={index} key={index}>
 							<Stack pb='15px'>
-								<Heading size='md'>
+								<Heading variant='reverse' size='md'>
 									{tab.jobTitle} @ {tab.company}
 								</Heading>
 								<Text>{tab.duration}</Text>
@@ -70,8 +70,9 @@ const Experience = () => {
 			jobTitle: 'Front-End Developer',
 			duration: 'SEPTEMBER 2021 - APRIL 2022',
 			description: [
-				'Did stuff using PARN stack, utilized knowledge from courses',
-				'Combined a lot of stuff from courses',
+				'Developed full stack solutions for web/desktop version of iOS application using AngularJS, Node.js, PostgreSQL, and Express',
+				'Utilized APIs to process, analyze, and render user data for web application',
+				'Presented weekly status reports and discussed future project requirements with team members',
 			],
 		},
 		{
@@ -79,14 +80,15 @@ const Experience = () => {
 			jobTitle: 'Finance Intern',
 			duration: 'MAY 2020 - AUGUST 2021',
 			description: [
-				'Did finance stuff for 16 months, worked with a team to do finance',
+				'Re-engineered financial analytical files by learning VBA to implement file specific macros which resulted in an overall efficiency improvement of over 90%',
+				"Assisted in creating monthly and quarterly reports, presentations, and resources for managerial use for meetings with Celestica's executive leadership team",
 			],
 		},
 	]
 
 	return (
 		<FadeInSection id='experience' direction='fromBottom'>
-			<Flex h={['70vh', '60vh']} flexDir='column'>
+			<Flex mb={[225, 100]} flexDir='column'>
 				<Heading size='3xl'>Experience</Heading>
 				<Divider my='15px'></Divider>
 				<Flex flexDir='column' maxW='700px'>

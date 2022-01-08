@@ -44,21 +44,27 @@ const overrides = {
 	},
 	components: {
 		Heading: {
-			baseStyle: {
-				fontWeight: 'medium',
+			baseStyle: (props) => ({
+				fontWeight: 'normal',
+				color: mode('brand.muted', 'brand.highlight')(props),
+			}),
+			variants: {
+				reverse: (props) => ({
+					color: mode('brand.100', 'brand.300')(props),
+				}),
 			},
 		},
 		Text: {
 			baseStyle: (props) => ({
 				fontWeight: 'normal',
-				color: mode('gray.500', 'gray.300')(props),
+				color: mode('brand.100', 'brand.300')(props),
 			}),
 		},
 		Link: {
 			baseStyle: (props) => ({
-				color: mode('brand.200', 'brand.highlight')(props),
+				color: mode('brand.muted', 'brand.highlight')(props),
 				_hover: {
-					color: mode('brand.325'),
+					color: mode('brand.100', 'brand.325')(props),
 				},
 			}),
 		},

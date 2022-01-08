@@ -26,7 +26,7 @@ const Intro = () => {
 			href='https://resume.creddle.io/resume/3hnt1dw8xkg'
 			target='_blank'
 			leftIcon={<FaFilePdf />}
-			size={isLargeScreen ? 'md' : 'sm'}
+			size='md'
 			key='Resume'>
 			Resume
 		</Button>,
@@ -35,7 +35,7 @@ const Intro = () => {
 			href='mailto:henryho73@hotmail.com'
 			target='_blank'
 			leftIcon={<EmailIcon />}
-			size={isLargeScreen ? 'md' : 'sm'}
+			size='md'
 			key='Email'>
 			Email
 		</Button>,
@@ -44,7 +44,7 @@ const Intro = () => {
 			href='https://github.com/hhenryhho'
 			target='_blank'
 			leftIcon={<FaGithub />}
-			size={isLargeScreen ? 'md' : 'sm'}
+			size='md'
 			key='Github'>
 			Github
 		</Button>,
@@ -53,7 +53,7 @@ const Intro = () => {
 			href='https://www.linkedin.com/in/henh/'
 			leftIcon={<FaLinkedin />}
 			target='_blank'
-			size={isLargeScreen ? 'md' : 'sm'}
+			size='md'
 			key='Linkedin'>
 			LinkedIn
 		</Button>,
@@ -63,7 +63,7 @@ const Intro = () => {
 		<Flex
 			flexDir='column'
 			pt={[50, 150]}
-			pb={[100, 100]}
+			pb={[100, 300]}
 			id='intro'>
 			<Flex
 				m='auto'
@@ -71,7 +71,7 @@ const Intro = () => {
 				flexDir='column'
 				alignItems='center'>
 				<Text fontSize={['md', 'lg']}>Hi, my name is </Text>
-				<Heading fontSize={['xl', '4.3rem']}>
+				<Heading fontSize={['3xl', '4.3rem']}>
 					Henry Ho.
 				</Heading>
 				<Text textAlign='center' fontSize={['md', 'lg']}>

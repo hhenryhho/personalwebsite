@@ -11,19 +11,19 @@ const Navbar = () => {
 	return (
 		<Flex
 			pos='fixed'
-			right='1'
+			right='30'
 			bottom='10'
 			h='95vh'
 			marginTop='2.5vh'
 			borderRadius='30px'
-			w='125px'
+			w='50px'
 			flexDir='column'
 			justifyContent='space-between'>
 			<Flex
 				p='5'
 				flexDir='column'
 				w='100%'
-				alignItems='flex-end'
+				alignItems='center'
 				as='nav'>
 				<IconButton
 					onClick={toggleColorMode}
@@ -32,10 +32,7 @@ const Navbar = () => {
 				</IconButton>
 			</Flex>
 
-			<Flex flexDir='column' h='14%' w='100%'>
-				<Link href='#intro'>Intro</Link>
-				<Link href='#about'>About</Link>
-				<Link href='#experience'>Experience</Link>
+			<Flex flexDir='column' w='100%'>
 				<Divider my={4} display='flex' />
 				<Flex justify='center'>
 					<Avatar size='sm' src='hen.png' />

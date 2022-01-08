@@ -14,7 +14,14 @@ import BlobSVG from './BlobSVG'
 
 const ProjectCardLarge = ({ project }) => {
 	const Tags = project.techStack.map((item) => (
-		<Tag key={item} size='sm' p={2} mr={1} mb={1}>
+		<Tag
+			bgColor='brand.325'
+			color='brand.100'
+			key={item}
+			size='sm'
+			p={2}
+			mr={1}
+			mb={1}>
 			{item}
 		</Tag>
 	))
@@ -47,7 +54,9 @@ const ProjectCardLarge = ({ project }) => {
 						top={200}
 						left={150}>
 						<Stack>
-							<Text>{project.description}</Text>
+							<Text color='brand.100'>
+								{project.description}
+							</Text>
 							<Flex flexWrap='wrap'>{Tags}</Flex>
 						</Stack>
 					</Box>
