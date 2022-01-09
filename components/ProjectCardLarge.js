@@ -47,11 +47,11 @@ const ProjectCardLarge = ({ project }) => {
 						{project.title}
 					</Link>
 				</Heading>
-				<Box position='absolute' top={-50} w={500}>
+				<Box position='absolute' top={10} w={500}>
 					<Box
 						position='absolute'
 						w='315px'
-						top={200}
+						top={120}
 						left={150}>
 						<Stack>
 							<Text color='brand.100'>
