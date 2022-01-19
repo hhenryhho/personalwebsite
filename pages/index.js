@@ -19,7 +19,17 @@ const Home = () => {
 			techStack: ['Python', 'Heroku'],
 			description: [
 				'A script that would notify users when certain products were restocked, and automatically buy them. ',
-				'Generated over $10,000 in revenue and created a userbase of 50 clients. ',
+				'Generated over $10,000 in revenue and a userbase of 50 clients. ',
+			],
+		},
+		{
+			title: 'Shopify Front End Challenge',
+			siteLink: 'https://spacestagram-woad.vercel.app/',
+			previewImage: '/shopify.gif',
+			techStack: ['ReactJS', 'NextJS', 'Chakra UI', 'Vercel'],
+			description: [
+				'This project was created for the Shopify Front End Developer Intern Challenge - Summer 2022 ',
+				'This website shares photos from NASA Open API. ',
 			],
 		},
 		{
