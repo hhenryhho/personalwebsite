@@ -30,7 +30,12 @@ const Experience = () => {
 				pt='15px'>
 				<TabList>
 					{data.map((tab, index) => (
-						<Tab my={5} mr={5} id={index} key={index}>
+						<Tab
+							my={5}
+							mr={5}
+							py={3}
+							id={index}
+							key={index}>
 							{tab.company}
 						</Tab>
 					))}
@@ -66,9 +71,15 @@ const Experience = () => {
 
 	const experienceObjects = [
 		{
+			company: 'Guidewire',
+			jobTitle: 'Software Consultant',
+			duration: 'JUNE 2022 - CURRENT',
+			description: ['Starting June 1st 2022'],
+		},
+		{
 			company: 'Western',
 			jobTitle: 'Front-End Developer',
-			duration: 'SEPTEMBER 2021 - APRIL 2022',
+			duration: 'DECEMBER 2021 - APRIL 2022',
 			description: [
 				'Developed full stack solutions for web/desktop version of iOS application using AngularJS, Node.js, PostgreSQL, and Express',
 				'Utilized APIs to process, analyze, and render user data for web application',

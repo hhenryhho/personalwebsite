@@ -23,17 +23,16 @@ const About = () => {
 						spacing='15px'
 						maxW='500px'>
 						<Text fontSize='lg'>
-							I am an upcoming graduate at{' '}
-							<b>Western University</b> pursuing a
-							dual-degree in{' '}
+							I am a recent graduate at{' '}
+							<b>Western University</b> with a
+							double-major in{' '}
 							<b>Finance & Computer Science</b>. I was
 							originally only a Finance student, however
 							I discovered my passion for development
 							after competing in a hackathon during my
-							third year. I am currently working as an{' '}
-							<b>App/Web developer</b> for the
-							department of Earth Sciences / Physics and
-							Astronomy at my University.
+							third year. I am currently working as a{' '}
+							<b>Software Consultant</b> at Guidewire
+							Software.
 						</Text>
 						<Text fontSize='lg'>
 							In my spare time, I like to cook and play
