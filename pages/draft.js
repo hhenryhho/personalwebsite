@@ -88,7 +88,7 @@ const Draft = () => {
         observer.unobserve(experienceSection.current)
       if (projectSection.current) observer.unobserve(projectSection.current)
     }
-  }, [introSection, experienceSection, projectSection, options])
+  }, [introSection, experienceSection, projectSection])
 
   // Rotate the head and body whenever the mouse position changes
   useEffect(() => {
