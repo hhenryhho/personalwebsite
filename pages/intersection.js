@@ -3,7 +3,7 @@ import { Button, Flex } from '@chakra-ui/react'
 import { useScrollDirection } from '../hooks/useScrollDirection'
 import { useEffect, useState, useRef } from 'react'
 
-const intersection = () => {
+const Intersection = () => {
   const scrollDirection = useScrollDirection()
 
   const introSection = useRef(null)
@@ -37,4 +37,4 @@ const intersection = () => {
   )
 }
 
-export default intersection
+export default Intersection
