@@ -11,7 +11,8 @@ import {
   Button,
   Grid,
   GridItem,
-  useBreakpointValue
+  useBreakpointValue,
+  keyframes
 } from '@chakra-ui/react'
 import { SunIcon, MoonIcon } from '@chakra-ui/icons'
 import { useEffect, useRef, useState } from 'react'
@@ -44,9 +45,16 @@ const ChakraNextImage = chakra(Image, {
 const headRotationMulti = 0.25
 const bodyRotationMulti = 0.1
 
-const upShift = '-200px'
+const bounce = keyframes`
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(0, 50px, 0); }
+}`
+
+const animation = `${bounce} 600ms cubic-bezier(.7,0,1,1) alternate infinite`
 
 const Draft = () => {
+  const [loading, setLoading] = useState(true)
+
   const mousePosition = useMousePosition()
   const rightArrow = useKeyPress('ArrowRight')
   const leftArrow = useKeyPress('ArrowLeft')
@@ -71,10 +79,10 @@ const Draft = () => {
 
   // Start the typewriter for the first box
   useEffect(() => {
-    if (introSpeechBox.current) {
+    if (introSpeechBox.current && !loading) {
       introSpeechBox.current.start()
     }
-  }, [introSpeechBox.current])
+  }, [introSpeechBox.current, loading])
 
   // Rotate the head and body whenever the mouse position changes
   useEffect(() => {
@@ -145,279 +153,309 @@ const Draft = () => {
 
   return (
     <>
-      <Flex
-        id="splinewrapper"
-        position="fixed"
-        zIndex="999"
-        top="50%"
-        left="50%"
-        h="400px"
-        w="400px"
-        transform="translateX(-50%) translateY(-50%)">
-        <ChakraBox
-          h="inherit"
-          w="inherit"
-          animate={{
-            y:
-              currentSpeechBox === 2
-                ? upShift
-                : currentSpeechBox === 3
-                ? upShift
-                : '0',
-            scale: variant
-          }}
-          transition={{ ease: 'anticipate', duration: 1 }}>
-          <Spline
-            onLoad={splineObj => {
-              // Get a reference to the head and body children of the spline scene
-              const head = splineObj.findObjectByName('Head')
-              const body = splineObj.findObjectByName('Lower Body')
-              headObj.current = head
-              bodyObj.current = body
-              regClothes.current = splineObj.findObjectByName('Regular')
-              logoClothes.current = splineObj.findObjectByName('Logo')
-              splineObj.setZoom(0.4)
-            }}
-            scene="scene.splinecode"
-            onMouseEnter={() => {
-              headObj?.current?.emitEvent('mouseHover')
-            }}
-            onMouseLeave={() => {
-              headObj?.current?.emitEventReverse('mouseHover')
-            }}
-            transform={['scale(0.8)', 'scale(0.9)', 'scale(1)']}
-          />
-        </ChakraBox>
-      </Flex>
-      <Flex
-        id="colorModeSwitch"
-        position="fixed"
-        top={['20px', '48px']}
-        right={['20px', '48px']}
-        zIndex="999">
-        <Flex justify="center" align="center">
-          <SunIcon />
-        </Flex>
-        <Switch
-          colorScheme="gray"
-          size="lg"
-          mx="16px"
-          onChange={toggleColorMode}
-        />
-        <Flex justify="center" align="center">
-          <MoonIcon />
-        </Flex>
-      </Flex>
-      <Flex
-        id="links"
-        visibility={['hidden', 'hidden', 'visible']}
-        position="fixed"
-        bottom="48px"
-        right="48px"
-        zIndex="999">
-        <Flex flexDir="column">
-          <Text
-            as={Link}
-            color={
-              currentSpeechBox === 1
-                ? colorMode === 'light'
-                  ? 'red'
-                  : 'blue'
-                : colorMode === 'light'
-                ? 'black'
-                : 'white'
-            }
-            onClick={() => {
-              setCurrentSpeechBox(1)
-            }}>
-            Intro
-          </Text>
-          <Text
-            as={Link}
-            color={
-              currentSpeechBox === 2
-                ? colorMode === 'light'
-                  ? 'red'
-                  : 'blue'
-                : colorMode === 'light'
-                ? 'black'
-                : 'white'
-            }
-            onClick={() => {
-              setCurrentSpeechBox(2)
-              experienceSpeechBox.current.start()
-            }}>
-            Experience
-          </Text>
-          <Text
-            as={Link}
-            color={
-              currentSpeechBox === 3
-                ? colorMode === 'light'
-                  ? 'red'
-                  : 'blue'
-                : colorMode === 'light'
-                ? 'black'
-                : 'white'
-            }
-            onClick={() => {
-              setCurrentSpeechBox(3)
-              projectSpeechBox.current.start()
-            }}>
-            Projects
-          </Text>
-        </Flex>
-      </Flex>
-      <Flex
-        id="progress-bar"
-        position="fixed"
+      <Center
+        id="preloader"
         h="100vh"
-        top="0"
-        right="0"
-        width="12px"
-        zIndex="999">
-        <ChakraBox
-          animate={{
-            height:
-              currentSpeechBox === 2
-                ? '50%'
-                : currentSpeechBox === 3
-                ? '100%'
-                : '0%'
-          }}
-          transition={{ ease: 'easeInOut', duration: 1 }}
-          h="0px"
-          w="100%"
-          bgColor={colorMode === 'light' ? 'brand.darkBg' : 'brand.lightBg'}
-          border="1px black solid"
-        />
-      </Flex>
-      <CustomSlide active={currentSpeechBox === 1}>
-        <SpeechBox
-          phrase="Hi! My name is Henry and I am a software engineer. I graduated on May 2022 with a degree in Finance and Computer Science."
-          typewriterRef={introSpeechBox}>
-          <Link
-            as={Button}
-            position="absolute"
-            bottom="0"
-            right="0"
-            onClick={() => {
-              setCurrentSpeechBox(2)
-              experienceSpeechBox.current.start()
-            }}>
-            Continue
-          </Link>
-        </SpeechBox>
-      </CustomSlide>
-
-      <CustomSlide active={currentSpeechBox === 2}>
-        <Flex
-          position="fixed"
-          maxW="400px"
-          flexDir="column"
-          bottom={['25%', '25%', '30%']}
-          h={['385px', '385px', '520px']}
-          left="50%"
-          transform="translateX(-50%)">
-          <Grid
-            templateAreas={`"image main"
-                           "footer footer"`}
-            gridTemplateRows={'60px 20px'}
-            gridTemplateColumns={'100px 230px'}
-            pb="30px">
-            <GridItem area="image">
-              <Center h="100%">
-                <ChakraNextImage
-                  src="/work/guidewire.png"
-                  alt="guidewire logo"
-                  height="50"
-                  width="50"
-                  h="auto"
-                  w="auto"
-                />
-              </Center>
-            </GridItem>
-            <GridItem area="main">
-              <Text fontSize="2xl">Guidewire Software</Text>
-              <Text fontSize="sm">June 2022 to December 2022</Text>
-            </GridItem>
-            <GridItem area="footer">
-              <Button h="auto" w="100%" my="10px">
-                <Link href="https://www.guidewire.com/" isExternal>
-                  View Website
-                </Link>
-              </Button>
-            </GridItem>
-          </Grid>
-          <Grid
-            templateAreas={`"image main"
-                            "footer footer"`}
-            gridTemplateRows={'60px 20px'}
-            gridTemplateColumns={'100px 230px'}>
-            <GridItem area="image">
-              <Center h="100%">
-                <ChakraNextImage
-                  src="/work/celestica.png"
-                  alt="celestica logo"
-                  height="50"
-                  width="50"
-                  h="auto"
-                  w="auto"
-                />
-              </Center>
-            </GridItem>
-            <GridItem area="main">
-              <Text fontSize="2xl">Celestica Inc.</Text>
-              <Text fontSize="sm">May 2020 to August 2021</Text>
-            </GridItem>
-            <GridItem area="footer">
-              <Button h="auto" w="100%" my="10px">
-                <Link href="https://www.celestica.com/" isExternal>
-                  View Website
-                </Link>
-              </Button>
-            </GridItem>
-          </Grid>
+        visibility={!loading ? 'hidden' : 'visible'}>
+        <Flex animation={animation}>
+          <Flex h="1rem" w="1rem" bg="white" borderRadius="0.5rem"></Flex>
         </Flex>
-        <SpeechBox
-          phrase="I am an incoming Software Engineer at Amazon. Here are some of my previous roles."
-          typewriterRef={experienceSpeechBox}>
-          <Link
-            position="absolute"
-            bottom="0"
-            left="0"
-            onClick={() => {
-              setCurrentSpeechBox(1)
-            }}>
-            Back
-          </Link>
-          <Link
-            position="absolute"
-            bottom="0"
-            right="0"
-            onClick={() => {
-              setCurrentSpeechBox(3)
-              projectSpeechBox.current.start()
-            }}>
-            Continue
-          </Link>
-        </SpeechBox>
-      </CustomSlide>
-      <CustomSlide active={currentSpeechBox == 3}>
-        <SpeechBox
-          phrase="When I am not working, I like to work on small side projects to teach myself new technologies."
-          typewriterRef={projectSpeechBox}>
-          <Link
-            position="absolute"
-            bottom="0"
-            left="0"
-            onClick={() => {
-              setCurrentSpeechBox(2)
-            }}>
-            Back
-          </Link>
-        </SpeechBox>
-      </CustomSlide>
+        <Flex
+          sx={{
+            'animation-delay': '200ms'
+          }}
+          animation={animation}>
+          <Flex h="1rem" w="1rem" bg="white" borderRadius="0.5rem"></Flex>
+        </Flex>
+        <Flex
+          sx={{
+            'animation-delay': '400ms'
+          }}
+          animation={animation}>
+          <Flex h="1rem" w="1rem" bg="white" borderRadius="0.5rem"></Flex>
+        </Flex>
+      </Center>
+      <ChakraBox
+        h="100vh"
+        w="100vw"
+        initial={{ opacity: 0 }}
+        animate={{
+          opacity: loading ? 0 : 1
+        }}
+        transition={{
+          duration: 1
+        }}>
+        <Flex
+          id="splinewrapper"
+          position="fixed"
+          zIndex="999"
+          top="50%"
+          left="50%"
+          h="400px"
+          w="400px"
+          transform="translateX(-50%) translateY(-50%)">
+          <ChakraBox
+            h="inherit"
+            w="inherit"
+            animate={{
+              y: currentSpeechBox > 1 ? '-200px' : '0',
+              scale: variant
+            }}
+            transition={{ ease: 'anticipate', duration: 1 }}>
+            <Spline
+              onLoad={splineObj => {
+                // Get a reference to the head and body children of the spline scene
+                const head = splineObj.findObjectByName('Head')
+                const body = splineObj.findObjectByName('Lower Body')
+                headObj.current = head
+                bodyObj.current = body
+                regClothes.current = splineObj.findObjectByName('Regular')
+                logoClothes.current = splineObj.findObjectByName('Logo')
+                setTimeout(() => {
+                  setLoading(false)
+                }, 2000)
+                splineObj.setZoom(0.4)
+              }}
+              scene="scene.splinecode"
+              onMouseEnter={() => {
+                headObj?.current?.emitEvent('mouseHover')
+              }}
+              onMouseLeave={() => {
+                headObj?.current?.emitEventReverse('mouseHover')
+              }}
+            />
+          </ChakraBox>
+        </Flex>
+        <Flex
+          id="colorModeSwitch"
+          position="fixed"
+          top={['20px', '48px']}
+          right={['20px', '48px']}
+          zIndex="999">
+          <Flex justify="center" align="center">
+            <SunIcon />
+          </Flex>
+          <Switch
+            colorScheme="gray"
+            size="lg"
+            mx="16px"
+            onChange={toggleColorMode}
+          />
+          <Flex justify="center" align="center">
+            <MoonIcon />
+          </Flex>
+        </Flex>
+        <Flex
+          id="links"
+          opacity={[0, 0, 1]}
+          position="fixed"
+          bottom="48px"
+          right="48px"
+          zIndex="999">
+          <Flex flexDir="column">
+            <Text
+              as={Link}
+              color={
+                currentSpeechBox === 1
+                  ? colorMode === 'light'
+                    ? 'red'
+                    : 'blue'
+                  : colorMode === 'light'
+                  ? 'black'
+                  : 'white'
+              }
+              onClick={() => {
+                setCurrentSpeechBox(1)
+              }}>
+              Intro
+            </Text>
+            <Text
+              as={Link}
+              color={
+                currentSpeechBox === 2
+                  ? colorMode === 'light'
+                    ? 'red'
+                    : 'blue'
+                  : colorMode === 'light'
+                  ? 'black'
+                  : 'white'
+              }
+              onClick={() => {
+                setCurrentSpeechBox(2)
+                experienceSpeechBox.current.start()
+              }}>
+              Experience
+            </Text>
+            <Text
+              as={Link}
+              color={
+                currentSpeechBox === 3
+                  ? colorMode === 'light'
+                    ? 'red'
+                    : 'blue'
+                  : colorMode === 'light'
+                  ? 'black'
+                  : 'white'
+              }
+              onClick={() => {
+                setCurrentSpeechBox(3)
+                projectSpeechBox.current.start()
+              }}>
+              Projects
+            </Text>
+          </Flex>
+        </Flex>
+        <Flex
+          id="progress-bar"
+          position="fixed"
+          h="100vh"
+          top="0"
+          right="0"
+          width="12px"
+          zIndex="999">
+          <ChakraBox
+            animate={{
+              height:
+                currentSpeechBox === 2
+                  ? '50%'
+                  : currentSpeechBox === 3
+                  ? '100%'
+                  : '0%'
+            }}
+            transition={{ ease: 'easeInOut', duration: 1 }}
+            h="0px"
+            w="100%"
+            bgColor={colorMode === 'light' ? 'brand.darkBg' : 'brand.lightBg'}
+            border="1px black solid"
+          />
+        </Flex>
+        <CustomSlide active={currentSpeechBox === 1}>
+          <SpeechBox
+            phrase="Hi! My name is Henry and I am a software engineer. I graduated on May 2022 with a degree in Finance and Computer Science."
+            typewriterRef={introSpeechBox}>
+            <Link
+              as={Button}
+              position="absolute"
+              bottom="0"
+              right="0"
+              onClick={() => {
+                setCurrentSpeechBox(2)
+                experienceSpeechBox.current.start()
+              }}>
+              Continue
+            </Link>
+          </SpeechBox>
+        </CustomSlide>
+
+        <CustomSlide active={currentSpeechBox === 2}>
+          <Flex
+            position="fixed"
+            maxW="400px"
+            flexDir="column"
+            bottom={['25%', '25%', '30%']}
+            h={['385px', '385px', '520px']}
+            left="50%"
+            transform="translateX(-50%)">
+            <Grid
+              templateAreas={`"image main"
+                           "footer footer"`}
+              gridTemplateRows={'60px 20px'}
+              gridTemplateColumns={'100px 230px'}
+              pb="30px">
+              <GridItem area="image">
+                <Center h="100%">
+                  <ChakraNextImage
+                    src="/work/guidewire.png"
+                    alt="guidewire logo"
+                    height="50"
+                    width="50"
+                    h="auto"
+                    w="auto"
+                  />
+                </Center>
+              </GridItem>
+              <GridItem area="main">
+                <Text fontSize="2xl">Guidewire Software</Text>
+                <Text fontSize="sm">June 2022 to December 2022</Text>
+              </GridItem>
+              <GridItem area="footer">
+                <Button h="auto" w="100%" my="10px">
+                  <Link href="https://www.guidewire.com/" isExternal>
+                    View Website
+                  </Link>
+                </Button>
+              </GridItem>
+            </Grid>
+            <Grid
+              templateAreas={`"image main"
+                            "footer footer"`}
+              gridTemplateRows={'60px 20px'}
+              gridTemplateColumns={'100px 230px'}>
+              <GridItem area="image">
+                <Center h="100%">
+                  <ChakraNextImage
+                    src="/work/celestica.png"
+                    alt="celestica logo"
+                    height="50"
+                    width="50"
+                    h="auto"
+                    w="auto"
+                  />
+                </Center>
+              </GridItem>
+              <GridItem area="main">
+                <Text fontSize="2xl">Celestica Inc.</Text>
+                <Text fontSize="sm">May 2020 to August 2021</Text>
+              </GridItem>
+              <GridItem area="footer">
+                <Button h="auto" w="100%" my="10px">
+                  <Link href="https://www.celestica.com/" isExternal>
+                    View Website
+                  </Link>
+                </Button>
+              </GridItem>
+            </Grid>
+          </Flex>
+          <SpeechBox
+            phrase="I am an incoming Software Engineer at Amazon. Here are some of my previous roles."
+            typewriterRef={experienceSpeechBox}>
+            <Link
+              position="absolute"
+              bottom="0"
+              left="0"
+              onClick={() => {
+                setCurrentSpeechBox(1)
+              }}>
+              Back
+            </Link>
+            <Link
+              position="absolute"
+              bottom="0"
+              right="0"
+              onClick={() => {
+                setCurrentSpeechBox(3)
+                projectSpeechBox.current.start()
+              }}>
+              Continue
+            </Link>
+          </SpeechBox>
+        </CustomSlide>
+        <CustomSlide active={currentSpeechBox == 3}>
+          <SpeechBox
+            phrase="When I am not working, I like to work on small side projects to teach myself new technologies."
+            typewriterRef={projectSpeechBox}>
+            <Link
+              position="absolute"
+              bottom="0"
+              left="0"
+              onClick={() => {
+                setCurrentSpeechBox(2)
+              }}>
+              Back
+            </Link>
+          </SpeechBox>
+        </CustomSlide>
+      </ChakraBox>
     </>
   )
 }
