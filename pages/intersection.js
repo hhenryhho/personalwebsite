@@ -18,7 +18,8 @@ const Intersection = () => {
     <>
       <Button
         onClick={() => {
-          projectSection.current.scrollIntoView({
+          window.scrollTo({
+            top: 1000,
             behavior: 'smooth'
           })
         }}>

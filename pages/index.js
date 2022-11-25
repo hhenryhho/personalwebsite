@@ -13,7 +13,7 @@ const Home = () => {
     {
       title: 'Restock Bot',
       siteLink: 'https://discord.gg/zcNwQT4r9w',
-      previewImage: '/monitor.gif',
+      previewImage: 'projects/monitor.gif',
       techStack: ['Python', 'Heroku'],
       description: [
         'A script that would notify users when certain products were restocked, and automatically buy them. ',
@@ -23,7 +23,7 @@ const Home = () => {
     {
       title: 'Shopify Front End Challenge',
       siteLink: 'https://spacestagram-woad.vercel.app/',
-      previewImage: '/shopify.gif',
+      previewImage: 'projects/shopify.gif',
       techStack: ['ReactJS', 'NextJS', 'Chakra UI', 'Vercel'],
       description: [
         'This project was created for the Shopify Front End Developer Intern Challenge - Summer 2022 ',
@@ -33,7 +33,7 @@ const Home = () => {
     {
       title: 'Pathfinding Visualizer',
       siteLink: 'https://hhenryhho.github.io/PathfindingVisualJS/',
-      previewImage: '/pathfinder.gif',
+      previewImage: 'projects/pathfinder.gif',
       techStack: ['HTML', 'CSS', 'Javscript'],
       description:
         'A simple pathfinding visualizer that demonstrates the breadth first traversal.'
