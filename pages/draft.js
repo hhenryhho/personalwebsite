@@ -9,7 +9,6 @@ import {
   useColorMode,
   Link,
   Button,
-  Slide,
   Grid,
   GridItem,
   useBreakpointValue
@@ -21,6 +20,7 @@ import { motion, isValidMotionProp } from 'framer-motion'
 import SpeechBox from '../components/SpeechBox'
 import Image from 'next/image'
 import CustomSlide from '../components/Slide'
+import useKeyPress from '../hooks/useKeyPress'
 
 const ChakraBox = chakra(motion.div, {
   shouldForwardProp: prop => isValidMotionProp(prop) || shouldForwardProp(prop)
@@ -48,6 +48,8 @@ const upShift = '-200px'
 
 const Draft = () => {
   const mousePosition = useMousePosition()
+  const rightArrow = useKeyPress('ArrowRight')
+  const leftArrow = useKeyPress('ArrowLeft')
   const { colorMode, toggleColorMode } = useColorMode()
   const [currentSpeechBox, setCurrentSpeechBox] = useState(1)
   const [clothesSwapped, setClothesSwapped] = useState(false)
@@ -119,6 +121,27 @@ const Draft = () => {
       console.log('Swapped clothes back')
     }
   }, [currentSpeechBox])
+
+  // Checks if the right or left arrow key is pressed and changes the current speech box
+  useEffect(() => {
+    if (rightArrow) {
+      if (currentSpeechBox === 1) {
+        setCurrentSpeechBox(2)
+        experienceSpeechBox.current.start()
+      } else if (currentSpeechBox === 2) {
+        setCurrentSpeechBox(3)
+        projectSpeechBox.current.start()
+      }
+    } else if (leftArrow) {
+      if (currentSpeechBox === 3) {
+        setCurrentSpeechBox(2)
+        experienceSpeechBox.current.start()
+      } else if (currentSpeechBox === 2) {
+        setCurrentSpeechBox(1)
+        introSpeechBox.current.start()
+      }
+    }
+  }, [rightArrow, leftArrow])
 
   return (
     <>
@@ -274,6 +297,7 @@ const Draft = () => {
           phrase="Hi! My name is Henry and I am a software engineer. I graduated on May 2022 with a degree in Finance and Computer Science."
           typewriterRef={introSpeechBox}>
           <Link
+            as={Button}
             position="absolute"
             bottom="0"
             right="0"
