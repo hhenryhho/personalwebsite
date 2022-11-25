@@ -155,7 +155,9 @@ const Draft = () => {
     <>
       <Center
         id="preloader"
+        position="fixed"
         h="100vh"
+        w="100vw"
         visibility={!loading ? 'hidden' : 'visible'}>
         <Flex animation={animation}>
           <Flex h="1rem" w="1rem" bg="white" borderRadius="0.5rem"></Flex>
