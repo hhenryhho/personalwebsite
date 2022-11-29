@@ -1,3 +1,55 @@
+import { useProgress } from '@react-three/drei'
+import { Canvas } from '@react-three/fiber'
+import {
+  Center,
+  Flex,
+  Text,
+  chakra,
+  shouldForwardProp,
+  Switch,
+  useColorMode,
+  Link,
+  Grid,
+  GridItem,
+  useBreakpointValue,
+  keyframes,
+  Kbd
+} from '@chakra-ui/react'
+import { SunIcon, MoonIcon } from '@chakra-ui/icons'
+import { useEffect, useRef, useState } from 'react'
+import { motion, isValidMotionProp } from 'framer-motion'
+import SpeechBox from '../components/SpeechBox'
+import Image from 'next/image'
+import CustomSlide from '../components/Slide'
+import useKeyPress from '../hooks/useKeyPress'
+import Scene from '../components/Scene'
+
+const ChakraBox = chakra(motion.div, {
+  shouldForwardProp: prop => isValidMotionProp(prop) || shouldForwardProp(prop)
+})
+
+const ChakraNextImage = chakra(Image, {
+  baseStyle: { maxH: 120, maxW: 120 },
+  shouldForwardProp: prop =>
+    [
+      'width',
+      'height',
+      'src',
+      'alt',
+      'quality',
+      'placeholder',
+      'blurDataURL',
+      'loader '
+    ].includes(prop)
+})
+
+const bounce = keyframes`
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(0, 50px, 0); }
+}`
+
+const animation = `${bounce} 600ms cubic-bezier(.7,0,1,1) alternate infinite`
+
 const Home = () => {
   return (
     <>
