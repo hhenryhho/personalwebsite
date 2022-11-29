@@ -50,7 +50,7 @@ const bounce = keyframes`
 
 const animation = `${bounce} 600ms cubic-bezier(.7,0,1,1) alternate infinite`
 
-const Draft = () => {
+const Home = () => {
   const [loading, setLoading] = useState(true)
   const { progress } = useProgress()
 
@@ -411,4 +411,4 @@ const Draft = () => {
   )
 }
 
-export default Draft
+export default Home
