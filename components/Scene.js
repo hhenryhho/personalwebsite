@@ -1,5 +1,8 @@
 import { useFrame } from '@react-three/fiber'
-// import useSpline from '@splinetool/r3f-spline'
+import dynamic from 'next/dynamic'
+const useSpline = dynamic(() => import('@splinetool/r3f-spline'), {
+  ssr: false
+})
 import { OrthographicCamera, Mask, Html } from '@react-three/drei'
 import useMousePosition from '../hooks/useMousePosition'
 import { useEffect, useState, useRef } from 'react'
