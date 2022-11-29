@@ -1,13 +1,12 @@
-import { useFrame } from '@react-three/fiber'
-import useSpline from '@splinetool/r3f-spline'
-import { OrthographicCamera, Mask, Html } from '@react-three/drei'
+// import { useFrame } from '@react-three/fiber'
+// import useSpline from '@splinetool/r3f-spline'
+// import { OrthographicCamera, Mask, Html } from '@react-three/drei'
 import useMousePosition from '../hooks/useMousePosition'
 import { useEffect, useState, useRef } from 'react'
-import { MathUtils } from 'three'
 import { useColorModeValue } from '@chakra-ui/react'
-import { BackSide, Vector3 } from 'three'
+// import { BackSide, Vector3, MathUtils } from 'three'
 import { useSpring, animated, easings } from '@react-spring/three'
-import Embed from '../components/Embed'
+// import Embed from '../components/Embed'
 
 const headRotationMulti = 0.25
 const bodyRotationMulti = 0.1
