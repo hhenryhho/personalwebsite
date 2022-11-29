@@ -1,5 +1,5 @@
 import { useProgress } from '@react-three/drei'
-// import { Canvas } from '@react-three/fiber'
+import { Canvas } from '@react-three/fiber'
 import {
   Center,
   Flex,
@@ -161,9 +161,9 @@ const Draft = () => {
           h="100vh"
           w="100vw"
           transform="translateX(-50%) translateY(-50%)">
-          {/* <Canvas shadows flat linear>
-            <Scene zoom={1} currentSpeechBox={currentSpeechBox} />
-          </Canvas> */}
+          <Canvas shadows flat linear>
+            {/* <Scene zoom={1} currentSpeechBox={currentSpeechBox} /> */}
+          </Canvas>
         </Flex>
         <Flex
           id="colorModeSwitch"
