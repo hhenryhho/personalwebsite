@@ -1,12 +1,12 @@
 import { useFrame } from '@react-three/fiber'
-import useSpline from '@splinetool/r3f-spline'
-import { OrthographicCamera, Mask, Html } from '@react-three/drei'
+import { OrthographicCamera, Mask, Html, useGLTF } from '@react-three/drei'
 import useMousePosition from '../hooks/useMousePosition'
 import { useEffect, useState, useRef } from 'react'
 import { useColorModeValue } from '@chakra-ui/react'
 import { BackSide, Vector3, MathUtils } from 'three'
 import { useSpring, animated, easings } from '@react-spring/three'
 import Embed from '../components/Embed'
+import SplineLoader from '@splinetool/loader'
 
 const headRotationMulti = 0.25
 const bodyRotationMulti = 0.1
@@ -14,13 +14,14 @@ const bodyRotationMulti = 0.1
 const lerpFactor = 0.05 // Higher value = faster lerp
 
 const Scene = ({ zoom, currentSpeechBox, ...props }) => {
-  const { nodes, materials } = useSpline(
-    'https://prod.spline.design/23zzRH2Ogn3ixUwa/scene.splinecode'
-  )
-
+  const { nodes, materials } = useGLTF('/self_portrait.gltf')
   const color = useColorModeValue('#F8F4FF', '#0C0B14')
   const mousePosition = useMousePosition()
   const [hover, setHover] = useState(false)
+
+  useEffect(() => {
+    console.log(nodes, materials)
+  }, [nodes, materials])
 
   const sceneObj = useRef()
   const characterObj = useRef()
@@ -79,54 +80,63 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
   }, [mousePosition])
 
   useFrame(state => {
-    // Aninmate the eyes getting tighter
-    eyesObj.current.scale.y = hover
-      ? MathUtils.lerp(eyesObj.current.scale.y, 0.45, lerpFactor)
-      : MathUtils.lerp(eyesObj.current.scale.y, 1, lerpFactor)
+    if (eyesObj.current) {
+      // Aninmate the eyes getting tighter
+      eyesObj.current.scale.y = hover
+        ? MathUtils.lerp(eyesObj.current.scale.y, 0.45, lerpFactor)
+        : MathUtils.lerp(eyesObj.current.scale.y, 1, lerpFactor)
+    }
+    if (eyebrowObj.current) {
+      // Animate eyebrows getting wider
+      eyebrowObj.current.scale.x = hover
+        ? MathUtils.lerp(eyebrowObj.current.scale.x, 1.12, lerpFactor)
+        : MathUtils.lerp(eyebrowObj.current.scale.x, 1, lerpFactor)
 
-    // Animate eyebrows getting wider
-    eyebrowObj.current.scale.x = hover
-      ? MathUtils.lerp(eyebrowObj.current.scale.x, 1.12, lerpFactor)
-      : MathUtils.lerp(eyebrowObj.current.scale.x, 1, lerpFactor)
-
-    // Animate eyebrows raising and lowering
-    eyebrowObj.current.position.y = hover
-      ? MathUtils.lerp(eyebrowObj.current.position.y, 35.81, lerpFactor)
-      : MathUtils.lerp(eyebrowObj.current.position.y, 31.82, lerpFactor)
-
-    // Animate mouth y position
-    mouthObj.current.position.y = hover
-      ? MathUtils.lerp(mouthObj.current.position.y, -22.41, lerpFactor)
-      : MathUtils.lerp(mouthObj.current.position.y, -10.41, lerpFactor)
-
-    // Animate mouth scale x position
-    mouthObj.current.scale.x = hover
-      ? MathUtils.lerp(mouthObj.current.scale.x, 0.5, lerpFactor)
-      : MathUtils.lerp(mouthObj.current.scale.x, 1, lerpFactor)
-
-    // Animate mouth scale y position
-    mouthObj.current.scale.y = hover
-      ? MathUtils.lerp(mouthObj.current.scale.y, 0.5, lerpFactor)
-      : MathUtils.lerp(mouthObj.current.scale.y, 1, lerpFactor)
-
-    // Swap clothes based on current speech box
-    if (currentSpeechBox !== 1) {
-      regClothes.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor)
-      logoClothes.current.scale.lerp(new Vector3(1, 1, 1), lerpFactor)
-    } else {
-      regClothes.current.scale.lerp(new Vector3(1, 1, 1), lerpFactor)
-      logoClothes.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor)
+      // Animate eyebrows raising and lowering
+      eyebrowObj.current.position.y = hover
+        ? MathUtils.lerp(eyebrowObj.current.position.y, 35.81, lerpFactor)
+        : MathUtils.lerp(eyebrowObj.current.position.y, 31.82, lerpFactor)
     }
 
-    // Animate the phone into view and remove character
-    if (currentSpeechBox === 3) {
-      phoneObj.current.scale.lerp(new Vector3(5, 5, 5), lerpFactor) // Scale in phone
-      phoneObj.current.position.lerp(new Vector3(0, 0, 0), lerpFactor) // Move phone to center
-      characterObj.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor)
-    } else {
-      phoneObj.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor) // Scale out phone
-      phoneObj.current.position.lerp(new Vector3(0, -200, 0), lerpFactor) // Move phone out of view
-      characterObj.current.scale.lerp(new Vector3(1, 1, 1), lerpFactor)
+    if (mouthObj.current) {
+      // Animate mouth y position
+      mouthObj.current.position.y = hover
+        ? MathUtils.lerp(mouthObj.current.position.y, -22.41, lerpFactor)
+        : MathUtils.lerp(mouthObj.current.position.y, -10.41, lerpFactor)
+
+      // Animate mouth scale x position
+      mouthObj.current.scale.x = hover
+        ? MathUtils.lerp(mouthObj.current.scale.x, 0.5, lerpFactor)
+        : MathUtils.lerp(mouthObj.current.scale.x, 1, lerpFactor)
+
+      // Animate mouth scale y position
+      mouthObj.current.scale.y = hover
+        ? MathUtils.lerp(mouthObj.current.scale.y, 0.5, lerpFactor)
+        : MathUtils.lerp(mouthObj.current.scale.y, 1, lerpFactor)
+    }
+
+    if (regClothes.current && logoClothes.current) {
+      // Swap clothes based on current speech box
+      if (currentSpeechBox !== 1) {
+        regClothes.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor)
+        logoClothes.current.scale.lerp(new Vector3(1, 1, 1), lerpFactor)
+      } else {
+        regClothes.current.scale.lerp(new Vector3(1, 1, 1), lerpFactor)
+        logoClothes.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor)
+      }
+    }
+
+    if (phoneObj.current && characterObj.current) {
+      // Animate the phone into view and remove character
+      if (currentSpeechBox === 3) {
+        phoneObj.current.scale.lerp(new Vector3(5, 5, 5), lerpFactor) // Scale in phone
+        phoneObj.current.position.lerp(new Vector3(0, 0, 0), lerpFactor) // Move phone to center
+        characterObj.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor)
+      } else {
+        phoneObj.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor) // Scale out phone
+        phoneObj.current.position.lerp(new Vector3(0, -200, 0), lerpFactor) // Move phone out of view
+        characterObj.current.scale.lerp(new Vector3(1, 1, 1), lerpFactor)
+      }
     }
   })
 
@@ -229,7 +239,7 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
             />
             <mesh
               name="Body1"
-              geometry={nodes.Body1.geometry}
+              geometry={nodes.Body_1.geometry}
               material={materials.Skin}
               castShadow
               receiveShadow
@@ -273,7 +283,7 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
             <group name="Hair" position={[0, 40.87, 0]}>
               <mesh
                 name="Left1"
-                geometry={nodes.Left1.geometry}
+                geometry={nodes.Left_1.geometry}
                 material={materials.Hair}
                 castShadow
                 receiveShadow
@@ -281,7 +291,7 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
               />
               <mesh
                 name="Right1"
-                geometry={nodes.Right1.geometry}
+                geometry={nodes.Right_1.geometry}
                 material={materials.Hair}
                 castShadow
                 receiveShadow
@@ -302,7 +312,7 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
               />
               <mesh
                 name="Right Stem"
-                geometry={nodes['Right Stem'].geometry}
+                geometry={nodes['Right_Stem'].geometry}
                 material={materials.Glasses}
                 castShadow
                 receiveShadow
@@ -312,7 +322,7 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
               />
               <mesh
                 name="Left Stem"
-                geometry={nodes['Left Stem'].geometry}
+                geometry={nodes['Left_Stem'].geometry}
                 material={materials.Glasses}
                 castShadow
                 receiveShadow
@@ -322,7 +332,7 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
               />
               <mesh
                 name="Left Frame"
-                geometry={nodes['Left Frame'].geometry}
+                geometry={nodes['Left_Frame'].geometry}
                 material={materials.Glasses}
                 castShadow
                 receiveShadow
@@ -330,7 +340,7 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
               />
               <mesh
                 name="Right Frame"
-                geometry={nodes['Right Frame'].geometry}
+                geometry={nodes['Right_Frame'].geometry}
                 material={materials.Glasses}
                 castShadow
                 receiveShadow
@@ -343,7 +353,7 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
               position={[1.91, 31.82, 50.16]}>
               <mesh
                 name="Left2"
-                geometry={nodes.Left2.geometry}
+                geometry={nodes.Left_2.geometry}
                 material={materials.Hair}
                 castShadow
                 receiveShadow
@@ -353,7 +363,7 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
               />
               <mesh
                 name="Right2"
-                geometry={nodes.Right2.geometry}
+                geometry={nodes.Right_2.geometry}
                 material={materials.Hair}
                 castShadow
                 receiveShadow
@@ -365,7 +375,7 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
             <group name="Ears" position={[-0.59, -0.53, -0.95]}>
               <mesh
                 name="Left3"
-                geometry={nodes.Left3.geometry}
+                geometry={nodes.Left_3.geometry}
                 material={materials.Skin}
                 castShadow
                 receiveShadow
@@ -374,7 +384,7 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
               />
               <mesh
                 name="Right3"
-                geometry={nodes.Right3.geometry}
+                geometry={nodes.Right_3.geometry}
                 material={materials.Skin}
                 castShadow
                 receiveShadow

@@ -15,6 +15,7 @@
     "@fullpage/react-fullpage": "^0.1.30",
     "@react-spring/three": "^9.5.5",
     "@react-three/drei": "^9.43.3",
+    "@splinetool/loader": "^0.9.145",
     "@splinetool/r3f-spline": "^1.0.2",
     "@splinetool/react-spline": "^2.2.3",
     "@splinetool/runtime": "^0.9.136",
