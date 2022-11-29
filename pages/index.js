@@ -1,5 +1,5 @@
 import { useProgress } from '@react-three/drei'
-import { Canvas } from '@react-three/fiber'
+// import { Canvas } from '@react-three/fiber'
 import {
   Center,
   Flex,
@@ -15,6 +15,13 @@ import {
   keyframes,
   Kbd
 } from '@chakra-ui/react'
+import { SunIcon, MoonIcon } from '@chakra-ui/icons'
+import { useEffect, useRef, useState } from 'react'
+import { motion, isValidMotionProp } from 'framer-motion'
+import SpeechBox from '../components/SpeechBox'
+import Image from 'next/image'
+import CustomSlide from '../components/Slide'
+import useKeyPress from '../hooks/useKeyPress'
 
 const ChakraBox = chakra(motion.div, {
   shouldForwardProp: prop => isValidMotionProp(prop) || shouldForwardProp(prop)
@@ -154,9 +161,9 @@ const Draft = () => {
           h="100vh"
           w="100vw"
           transform="translateX(-50%) translateY(-50%)">
-          <Canvas shadows flat linear>
+          {/* <Canvas shadows flat linear>
             <Scene zoom={1} currentSpeechBox={currentSpeechBox} />
-          </Canvas>
+          </Canvas> */}
         </Flex>
         <Flex
           id="colorModeSwitch"
