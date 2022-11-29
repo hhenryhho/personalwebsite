@@ -1,5 +1,5 @@
 import { useFrame } from '@react-three/fiber'
-// import useSpline from '@splinetool/r3f-spline'
+import useSpline from '@splinetool/r3f-spline'
 import { OrthographicCamera, Mask, Html } from '@react-three/drei'
 import useMousePosition from '../hooks/useMousePosition'
 import { useEffect, useState, useRef } from 'react'
