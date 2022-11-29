@@ -106,7 +106,7 @@ const Draft = () => {
 
   return (
     <>
-      <Center
+      {/* <Center
         id="preloader"
         position="fixed"
         h="100vh"
@@ -406,7 +406,7 @@ const Draft = () => {
             </Link>
           </SpeechBox>
         </CustomSlide>
-      </ChakraBox>
+      </ChakraBox> */}
     </>
   )
 }
