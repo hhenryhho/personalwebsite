@@ -10,14 +10,14 @@ export const Three = () => {
   return (
     <Flex h="100vh" w="100vw" align="center" justify="center">
       <Flex h="1000px" w="1000px">
-        <Canvas shadows flat linear>
+        {/* <Canvas shadows flat linear>
           <Scene zoom={1} currentSpeechBox={currentSpeechBox} />
           <OrbitControls
             enableZoom={false}
             enablePan={false}
             enableRotate={true}
           />
-        </Canvas>
+        </Canvas> */}
       </Flex>
       <Flex position="fixed" bottom="10%">
         <Button
