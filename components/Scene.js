@@ -6,7 +6,7 @@ import { useEffect, useState, useRef } from 'react'
 import { useColorModeValue } from '@chakra-ui/react'
 // import { BackSide, Vector3, MathUtils } from 'three'
 import { useSpring, animated, easings } from '@react-spring/three'
-// import Embed from '../components/Embed'
+import Embed from '../components/Embed'
 
 const headRotationMulti = 0.25
 const bodyRotationMulti = 0.1
