@@ -22,7 +22,6 @@ import SpeechBox from '../components/SpeechBox'
 import Image from 'next/image'
 import CustomSlide from '../components/Slide'
 import useKeyPress from '../hooks/useKeyPress'
-import Scene from '../components/Scene'
 
 const ChakraBox = chakra(motion.div, {
   shouldForwardProp: prop => isValidMotionProp(prop) || shouldForwardProp(prop)
@@ -93,7 +92,7 @@ const Draft = () => {
         introSpeechBox.current.start()
       }
     }
-  }, [rightArrow, leftArrow, currentSpeechBox])
+  }, [rightArrow, leftArrow])
 
   // Artificially set the loading state to false after 2 seconds
   useEffect(() => {
@@ -163,7 +162,7 @@ const Draft = () => {
           w="100vw"
           transform="translateX(-50%) translateY(-50%)">
           <Canvas shadows flat linear>
-            <Scene zoom={1} currentSpeechBox={currentSpeechBox} />
+            {/* <Scene zoom={1} currentSpeechBox={currentSpeechBox} /> */}
           </Canvas>
         </Flex>
         <Flex

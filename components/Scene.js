@@ -110,25 +110,25 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
       ? MathUtils.lerp(mouthObj.current.scale.y, 0.5, lerpFactor)
       : MathUtils.lerp(mouthObj.current.scale.y, 1, lerpFactor)
 
-    // Swap clothes based on current speech box
-    if (currentSpeechBox !== 1) {
-      regClothes.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor)
-      logoClothes.current.scale.lerp(new Vector3(1, 1, 1), lerpFactor)
-    } else {
-      regClothes.current.scale.lerp(new Vector3(1, 1, 1), lerpFactor)
-      logoClothes.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor)
-    }
+    // // Swap clothes based on current speech box
+    // if (currentSpeechBox !== 1) {
+    //   regClothes.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor)
+    //   logoClothes.current.scale.lerp(new Vector3(1, 1, 1), lerpFactor)
+    // } else {
+    //   regClothes.current.scale.lerp(new Vector3(1, 1, 1), lerpFactor)
+    //   logoClothes.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor)
+    // }
 
-    // Animate the phone into view and remove character
-    if (currentSpeechBox === 3) {
-      phoneObj.current.scale.lerp(new Vector3(5, 5, 5), lerpFactor) // Scale in phone
-      phoneObj.current.position.lerp(new Vector3(0, 0, 0), lerpFactor) // Move phone to center
-      characterObj.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor)
-    } else {
-      phoneObj.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor) // Scale out phone
-      phoneObj.current.position.lerp(new Vector3(0, -200, 0), lerpFactor) // Move phone out of view
-      characterObj.current.scale.lerp(new Vector3(1, 1, 1), lerpFactor)
-    }
+    // // Animate the phone into view and remove character
+    // if (currentSpeechBox === 3) {
+    //   phoneObj.current.scale.lerp(new Vector3(5, 5, 5), lerpFactor) // Scale in phone
+    //   phoneObj.current.position.lerp(new Vector3(0, 0, 0), lerpFactor) // Move phone to center
+    //   characterObj.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor)
+    // } else {
+    //   phoneObj.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor) // Scale out phone
+    //   phoneObj.current.position.lerp(new Vector3(0, -200, 0), lerpFactor) // Move phone out of view
+    //   characterObj.current.scale.lerp(new Vector3(1, 1, 1), lerpFactor)
+    // }
   })
 
   return (
