@@ -24,25 +24,6 @@ import CustomSlide from '../components/Slide'
 import useKeyPress from '../hooks/useKeyPress'
 import Scene from '../components/Scene'
 
-const ChakraBox = chakra(motion.div, {
-  shouldForwardProp: prop => isValidMotionProp(prop) || shouldForwardProp(prop)
-})
-
-const ChakraNextImage = chakra(Image, {
-  baseStyle: { maxH: 120, maxW: 120 },
-  shouldForwardProp: prop =>
-    [
-      'width',
-      'height',
-      'src',
-      'alt',
-      'quality',
-      'placeholder',
-      'blurDataURL',
-      'loader '
-    ].includes(prop)
-})
-
 const bounce = keyframes`
   from { transform: translate3d(0, 0, 0); }
   to   { transform: translate3d(0, 50px, 0); }
