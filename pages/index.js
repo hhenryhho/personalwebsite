@@ -13,7 +13,8 @@ import {
   Grid,
   GridItem,
   useBreakpointValue,
-  keyframes
+  keyframes,
+  Kbd
 } from '@chakra-ui/react'
 import { SunIcon, MoonIcon } from '@chakra-ui/icons'
 import { useEffect, useRef, useState } from 'react'
@@ -64,17 +65,15 @@ const Draft = () => {
   const projectSpeechBox = useRef(null)
 
   const variant = useBreakpointValue({
-    base: '0.7',
-    md: '0.9',
-    lg: '1'
+    base: 'mobile',
+    sm: 'sm',
+    md: 'md'
   })
 
   // Start the typewriter for the first box
   useEffect(() => {
-    if (introSpeechBox.current && !(progress === 100)) {
-      introSpeechBox.current.start()
-    }
-  }, [introSpeechBox.current, progress])
+    if (introSpeechBox.current && !loading) introSpeechBox.current.start()
+  }, [introSpeechBox.current, loading])
 
   // Checks if the right or left arrow key is pressed and changes the current speech box
   useEffect(() => {
@@ -164,22 +163,14 @@ const Draft = () => {
           h="100vh"
           w="100vw"
           transform="translateX(-50%) translateY(-50%)">
-          <ChakraBox
-            h="inherit"
-            w="inherit"
-            // animate={{
-            //   y: currentSpeechBox > 1 ? '-200px' : '0'
-            // }}
-            transition={{ ease: 'anticipate', duration: 1 }}>
-            <Canvas shadows flat linear>
-              <Scene zoom={1} currentSpeechBox={currentSpeechBox} />
-              <OrbitControls
-                enableZoom={false}
-                enablePan={false}
-                enableRotate={false}
-              />
-            </Canvas>
-          </ChakraBox>
+          <Canvas shadows flat linear>
+            <Scene zoom={1} currentSpeechBox={currentSpeechBox} />
+            <OrbitControls
+              enableZoom={false}
+              enablePan={false}
+              enableRotate={false}
+            />
+          </Canvas>
         </Flex>
         <Flex
           id="colorModeSwitch"
@@ -287,7 +278,14 @@ const Draft = () => {
         <CustomSlide active={currentSpeechBox === 1}>
           <SpeechBox
             phrase="Hi! My name is Henry and I am a software engineer. I graduated on May 2022 with a degree in Finance and Computer Science."
-            typewriterRef={introSpeechBox}>
+            typewriterRef={introSpeechBox}
+            subNote={
+              !(variant === 'mobile' || variant === 'sm') && (
+                <Text>
+                  You can also use the <Kbd>{'Arrow Keys'}</Kbd> to navigate
+                </Text>
+              )
+            }>
             <Link
               position="absolute"
               bottom="0"
@@ -312,10 +310,12 @@ const Draft = () => {
             transform="translateX(-50%)">
             <Grid
               templateAreas={`"image main"
-                           "footer footer"`}
-              gridTemplateRows={'60px 20px'}
+                              "image main"`}
+              gridTemplateRows={'90px'}
               gridTemplateColumns={'100px 230px'}
-              pb="30px">
+              mb="16px"
+              border="2px"
+              bg="white">
               <GridItem area="image">
                 <Center h="100%">
                   <ChakraNextImage
@@ -329,22 +329,25 @@ const Draft = () => {
                 </Center>
               </GridItem>
               <GridItem area="main">
-                <Text fontSize="2xl">Guidewire Software</Text>
-                <Text fontSize="sm">June 2022 to December 2022</Text>
+                <Link
+                  fontSize="2xl"
+                  p="0"
+                  href="https://www.guidewire.com/"
+                  isExternal>
+                  Guidewire Software
+                </Link>
+                <Text>Software Developer</Text>
+                <Text>June 2022 to December 2022</Text>
               </GridItem>
-              <GridItem area="footer">
-                <Button h="auto" w="100%" my="10px">
-                  <Link href="https://www.guidewire.com/" isExternal>
-                    View Website
-                  </Link>
-                </Button>
-              </GridItem>
+              <GridItem area="footer"></GridItem>
             </Grid>
             <Grid
               templateAreas={`"image main"
-                            "footer footer"`}
-              gridTemplateRows={'60px 20px'}
-              gridTemplateColumns={'100px 230px'}>
+                              "image main"`}
+              gridTemplateRows={'90px'}
+              gridTemplateColumns={'100px 230px'}
+              border="2px"
+              bg="white">
               <GridItem area="image">
                 <Center h="100%">
                   <ChakraNextImage
@@ -358,15 +361,15 @@ const Draft = () => {
                 </Center>
               </GridItem>
               <GridItem area="main">
-                <Text fontSize="2xl">Celestica Inc.</Text>
-                <Text fontSize="sm">May 2020 to August 2021</Text>
-              </GridItem>
-              <GridItem area="footer">
-                <Button h="auto" w="100%" my="10px">
-                  <Link href="https://www.celestica.com/" isExternal>
-                    View Website
-                  </Link>
-                </Button>
+                <Link
+                  fontSize="2xl"
+                  p="0"
+                  href="https://www.celestica.com/"
+                  isExternal>
+                  Celestica Inc.
+                </Link>
+                <Text>Financial Analyst Intern</Text>
+                <Text>May 2020 to August 2021</Text>
               </GridItem>
             </Grid>
           </Flex>

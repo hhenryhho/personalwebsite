@@ -1,12 +1,13 @@
 import { useFrame } from '@react-three/fiber'
 import useSpline from '@splinetool/r3f-spline'
-import { OrthographicCamera } from '@react-three/drei'
+import { OrthographicCamera, Mask, Html } from '@react-three/drei'
 import useMousePosition from '../hooks/useMousePosition'
 import { useEffect, useState, useRef } from 'react'
 import { MathUtils } from 'three'
 import { useColorModeValue } from '@chakra-ui/react'
-import { BackSide } from 'three'
+import { BackSide, Vector3 } from 'three'
 import { useSpring, animated, easings } from '@react-spring/three'
+import Embed from '../components/Embed'
 
 const headRotationMulti = 0.25
 const bodyRotationMulti = 0.1
@@ -20,9 +21,10 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
 
   const color = useColorModeValue('#F8F4FF', '#0C0B14')
   const mousePosition = useMousePosition()
-  const [clothesSwapped, setClothesSwapped] = useState(false)
+  const [hover, setHover] = useState(false)
 
   const sceneObj = useRef()
+  const characterObj = useRef()
   const headObj = useRef()
   const eyesObj = useRef()
   const eyebrowObj = useRef()
@@ -30,8 +32,7 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
   const bodyObj = useRef()
   const regClothes = useRef()
   const logoClothes = useRef()
-
-  const [hover, setHover] = useState(false)
+  const phoneObj = useRef()
 
   const { position } = useSpring({
     position: currentSpeechBox > 1 ? [0, 250, 0] : [0, 0, 0],
@@ -41,18 +42,19 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
     }
   })
 
+  const vec = new Vector3()
+
   // Rotate the head and body whenever the mouse position changes
   useEffect(() => {
+    // Get the width and height of the window
+    const windowWidth = window.innerWidth
+    const windowHeight = window.innerHeight
+
+    // Get the center coordinates of the window
+    const centerXCoordinate = windowWidth / 2
+    const centerYCoordinate = windowHeight / 2
     // Ensure that the reference to the spline object is set
     if (headObj.current && bodyObj.current) {
-      // Get the width and height of the window
-      const windowWidth = window.innerWidth
-      const windowHeight = window.innerHeight
-
-      // Get the center coordinates of the window
-      const centerXCoordinate = windowWidth / 2
-      const centerYCoordinate = windowHeight / 2
-
       // Rotate the head and body on the y and x axis based on mouse position and multipliers
       headObj.current.rotation.y =
         ((mousePosition.x - centerXCoordinate) * headRotationMulti * 2.5) /
@@ -68,9 +70,18 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
         ((mousePosition.y - centerYCoordinate) * bodyRotationMulti) /
         windowHeight
     }
+
+    if (phoneObj.current) {
+      phoneObj.current.rotation.y =
+        ((mousePosition.x - centerXCoordinate) * bodyRotationMulti * 3) /
+        windowWidth
+      phoneObj.current.rotation.x =
+        ((mousePosition.y - centerYCoordinate) * bodyRotationMulti * 1.5) /
+        windowHeight
+    }
   }, [mousePosition])
 
-  useFrame(() => {
+  useFrame(state => {
     // Aninmate the eyes getting tighter
     eyesObj.current.scale.y = hover
       ? MathUtils.lerp(eyesObj.current.scale.y, 0.45, lerpFactor)
@@ -101,32 +112,41 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
       ? MathUtils.lerp(mouthObj.current.scale.y, 0.5, lerpFactor)
       : MathUtils.lerp(mouthObj.current.scale.y, 1, lerpFactor)
 
-    // Animate clothes swapping when the current speech box changes
-    if (currentSpeechBox === 2 && !clothesSwapped) {
-      setClothesSwapped(true)
-      console.log('Swapped clothes')
-    } else if (currentSpeechBox === 1 && clothesSwapped) {
-      setClothesSwapped(false)
-      console.log('Swapped clothes back')
+    // Swap clothes based on current speech box
+    if (currentSpeechBox !== 1) {
+      regClothes.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor)
+      logoClothes.current.scale.lerp(new Vector3(1, 1, 1), lerpFactor)
+    } else {
+      regClothes.current.scale.lerp(new Vector3(1, 1, 1), lerpFactor)
+      logoClothes.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor)
+    }
+
+    // Animate the phone into view and remove character
+    if (currentSpeechBox === 3) {
+      phoneObj.current.scale.lerp(new Vector3(5, 5, 5), lerpFactor) // Scale in phone
+      phoneObj.current.position.lerp(vec.set(0, 0, 0), lerpFactor) // Move phone to center
+      characterObj.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor)
+    } else {
+      phoneObj.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor) // Scale out phone
+      phoneObj.current.position.lerp(vec.set(0, -200, 0), lerpFactor) // Move phone out of view
+      characterObj.current.scale.lerp(new Vector3(1, 1, 1), lerpFactor)
     }
   })
+
+  // Helper
+  useEffect(() => {
+    if (hover) {
+      // get child of phone
+      console.log(phoneObj.current.getObjectByName('Screen'))
+    }
+  }, [hover])
 
   return (
     <>
       <group ref={sceneObj} {...props} dispose={null}>
-        <mesh
-          name="floor"
-          userData={{ type: 'floor' }}
-          position={[0, -200, -50]}
-          rotation={[Math.PI / 1.1, 0, 0]}
-          castShadow
-          receiveShadow>
-          <planeGeometry args={[2000, 2000, 1, 1]} />
-          <meshLambertMaterial color={color} side={BackSide} />
-        </mesh>
         <directionalLight
           name="Directional Light 2"
-          intensity={0.7}
+          intensity={1.5}
           shadow-mapSize-width={1024}
           shadow-mapSize-height={1024}
           shadow-camera-near={-10000}
@@ -143,7 +163,7 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
         <directionalLight
           name="Directional Light"
           castShadow
-          intensity={0.7}
+          intensity={0.35}
           shadow-mapSize-width={1024}
           shadow-mapSize-height={1024}
           shadow-camera-near={-10000}
@@ -154,7 +174,41 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
           shadow-camera-bottom={-500}
           position={[-254.61, 269.33, 300]}
         />
+        <mesh
+          name="floor"
+          userData={{ type: 'floor' }}
+          position={[0, -200, -50]}
+          rotation={[Math.PI / 1.1, 0, 0]}
+          castShadow
+          receiveShadow>
+          <planeGeometry args={[10000, 10000, 1, 1]} />
+          <meshLambertMaterial color={color} side={BackSide} />
+        </mesh>
+
+        <group ref={phoneObj} name="Phone" position={[0, -200, 0]}>
+          <mesh
+            name="Body"
+            geometry={nodes.Body.geometry}
+            material={materials['Body Material']}
+            castShadow
+            receiveShadow
+            position={[-0.23, -0.31, -3.14]}
+            scale={[1.09, 1, 3.01]}
+          />
+          <Mask
+            id={1}
+            name="Screen"
+            geometry={nodes.Screen.geometry}
+            castShadow
+            receiveShadow
+            position={[-0.22, -0.55, 3.14]}>
+            <Html scale={10} transform>
+              <Embed />
+            </Html>
+          </Mask>
+        </group>
         <animated.group
+          ref={characterObj}
           name="Character"
           position={position}
           onPointerEnter={() => {
@@ -172,8 +226,7 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
               castShadow
               receiveShadow
               position={[0.93, -131.51, -0.41]}
-              scale={[1, 1, 0.82]}
-              visible={clothesSwapped}
+              scale={[0, 0, 0]}
             />
             <mesh
               ref={regClothes}
@@ -183,12 +236,11 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
               castShadow
               receiveShadow
               position={[0.93, -131.51, -0.41]}
-              scale={[1, 1, 0.82]}
-              visible={!clothesSwapped}
+              scale={[1, 1, 1]}
             />
             <mesh
-              name="Body"
-              geometry={nodes.Body.geometry}
+              name="Body1"
+              geometry={nodes.Body1.geometry}
               material={materials.Skin}
               castShadow
               receiveShadow
@@ -361,14 +413,13 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
             />
           </group>
         </animated.group>
-
         <OrthographicCamera
-          name="1"
+          name="Camera"
           makeDefault={true}
-          zoom={zoom}
+          zoom={1}
           far={100000}
           near={-100000}
-          position={[4.01, -13.44, 1000]}
+          position={[0, 0, 1000]}
           rotation={[0, 0, 0]}
         />
         <hemisphereLight
