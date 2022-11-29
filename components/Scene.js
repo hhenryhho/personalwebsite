@@ -42,8 +42,6 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
     }
   })
 
-  const vec = new Vector3()
-
   // Rotate the head and body whenever the mouse position changes
   useEffect(() => {
     // Get the width and height of the window
@@ -124,11 +122,11 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
     // Animate the phone into view and remove character
     if (currentSpeechBox === 3) {
       phoneObj.current.scale.lerp(new Vector3(5, 5, 5), lerpFactor) // Scale in phone
-      phoneObj.current.position.lerp(vec.set(0, 0, 0), lerpFactor) // Move phone to center
+      phoneObj.current.position.lerp(new Vector3(0, 0, 0), lerpFactor) // Move phone to center
       characterObj.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor)
     } else {
       phoneObj.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor) // Scale out phone
-      phoneObj.current.position.lerp(vec.set(0, -200, 0), lerpFactor) // Move phone out of view
+      phoneObj.current.position.lerp(new Vector3(0, -200, 0), lerpFactor) // Move phone out of view
       characterObj.current.scale.lerp(new Vector3(1, 1, 1), lerpFactor)
     }
   })
