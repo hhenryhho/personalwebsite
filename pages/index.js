@@ -1,3 +1,5 @@
+import { useProgress } from '@react-three/drei'
+import { Canvas } from '@react-three/fiber'
 import {
   Center,
   Flex,
@@ -14,6 +16,25 @@ import {
   Kbd
 } from '@chakra-ui/react'
 
+const ChakraBox = chakra(motion.div, {
+  shouldForwardProp: prop => isValidMotionProp(prop) || shouldForwardProp(prop)
+})
+
+const ChakraNextImage = chakra(Image, {
+  baseStyle: { maxH: 120, maxW: 120 },
+  shouldForwardProp: prop =>
+    [
+      'width',
+      'height',
+      'src',
+      'alt',
+      'quality',
+      'placeholder',
+      'blurDataURL',
+      'loader '
+    ].includes(prop)
+})
+
 const bounce = keyframes`
   from { transform: translate3d(0, 0, 0); }
   to   { transform: translate3d(0, 50px, 0); }
@@ -21,10 +42,63 @@ const bounce = keyframes`
 
 const animation = `${bounce} 600ms cubic-bezier(.7,0,1,1) alternate infinite`
 
-const Home = () => {
+const Draft = () => {
+  const [loading, setLoading] = useState(true)
+  const { progress } = useProgress()
+
+  const rightArrow = useKeyPress('ArrowRight')
+  const leftArrow = useKeyPress('ArrowLeft')
+  const { colorMode, toggleColorMode } = useColorMode()
+  const [currentSpeechBox, setCurrentSpeechBox] = useState(1)
+
+  const introSpeechBox = useRef(null)
+  const experienceSpeechBox = useRef(null)
+  const projectSpeechBox = useRef(null)
+
+  const variant = useBreakpointValue({
+    base: 'mobile',
+    sm: 'sm',
+    md: 'md'
+  })
+
+  // Start the typewriter for the first box
+  useEffect(() => {
+    if (introSpeechBox.current && !loading) introSpeechBox.current.start()
+  }, [introSpeechBox, loading])
+
+  // Checks if the right or left arrow key is pressed and changes the current speech box
+  useEffect(() => {
+    if (rightArrow) {
+      if (currentSpeechBox === 1) {
+        setCurrentSpeechBox(2)
+        experienceSpeechBox.current.start()
+      } else if (currentSpeechBox === 2) {
+        setCurrentSpeechBox(3)
+        projectSpeechBox.current.start()
+      }
+    } else if (leftArrow) {
+      if (currentSpeechBox === 3) {
+        setCurrentSpeechBox(2)
+        experienceSpeechBox.current.start()
+      } else if (currentSpeechBox === 2) {
+        setCurrentSpeechBox(1)
+        introSpeechBox.current.start()
+      }
+    }
+  }, [rightArrow, leftArrow])
+
+  // Artificially set the loading state to false after 2 seconds
+  useEffect(() => {
+    if (progress === 100) {
+      setTimeout(() => {
+        setLoading(false)
+      }, 2000)
+    }
+  }, [progress])
+
   return (
     <>
-      {/* <Center
+      <Center
         id="preloader"
         position="fixed"
         h="100vh"
@@ -324,9 +398,9 @@ const Home = () => {
             </Link>
           </SpeechBox>
         </CustomSlide>
-      </ChakraBox> */}
+      </ChakraBox>
     </>
   )
 }
 
-export default Home
+export default Draft
