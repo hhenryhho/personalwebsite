@@ -1,4 +1,4 @@
-import { OrbitControls, useProgress } from '@react-three/drei'
+import { useProgress } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
 import {
   Center,
@@ -72,7 +72,7 @@ const Draft = () => {
   // Start the typewriter for the first box
   useEffect(() => {
     if (introSpeechBox.current && !loading) introSpeechBox.current.start()
-  }, [introSpeechBox.current, loading])
+  }, [introSpeechBox, loading])
 
   // Checks if the right or left arrow key is pressed and changes the current speech box
   useEffect(() => {
