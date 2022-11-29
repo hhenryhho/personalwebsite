@@ -1,5 +1,3 @@
-import { useProgress } from '@react-three/drei'
-import { Canvas } from '@react-three/fiber'
 import {
   Center,
   Flex,
@@ -15,14 +13,6 @@ import {
   keyframes,
   Kbd
 } from '@chakra-ui/react'
-import { SunIcon, MoonIcon } from '@chakra-ui/icons'
-import { useEffect, useRef, useState } from 'react'
-import { motion, isValidMotionProp } from 'framer-motion'
-import SpeechBox from '../components/SpeechBox'
-import Image from 'next/image'
-import CustomSlide from '../components/Slide'
-import useKeyPress from '../hooks/useKeyPress'
-import Scene from '../components/Scene'
 
 const bounce = keyframes`
   from { transform: translate3d(0, 0, 0); }
