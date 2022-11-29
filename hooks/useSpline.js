@@ -10,7 +10,7 @@ const useSpline = () => {
     // Load a .splinecode file
     loader.load(
       // path to the .splinecode file, either from the Spline servers or local
-      'https://prod.spline.design/2qM3cW5Cx15m3cJ7/scene.splinecode',
+      'https://prod.spline.design/23zzRH2Ogn3ixUwa/scene.splinecode',
       // called when the resource is loaded
       splineScene => {
         // For each children, get the nodes and materials

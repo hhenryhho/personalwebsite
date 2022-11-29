@@ -1,5 +1,5 @@
 import { useFrame } from '@react-three/fiber'
-import { OrthographicCamera, Mask, Html, useGLTF } from '@react-three/drei'
+import { OrthographicCamera, Mask, Html } from '@react-three/drei'
 import useMousePosition from '../hooks/useMousePosition'
 import { useEffect, useState, useRef } from 'react'
 import { useColorModeValue } from '@chakra-ui/react'
@@ -14,7 +14,9 @@ const bodyRotationMulti = 0.1
 const lerpFactor = 0.05 // Higher value = faster lerp
 
 const Scene = ({ zoom, currentSpeechBox, ...props }) => {
-  const { nodes, materials } = useGLTF('/self_portrait.gltf')
+  const { nodes, materials } = useSpline(
+    'https://prod.spline.design/23zzRH2Ogn3ixUwa/scene.splinecode'
+  )
   const color = useColorModeValue('#F8F4FF', '#0C0B14')
   const mousePosition = useMousePosition()
   const [hover, setHover] = useState(false)
@@ -239,7 +241,7 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
             />
             <mesh
               name="Body1"
-              geometry={nodes.Body_1.geometry}
+              geometry={nodes.Body1.geometry}
               material={materials.Skin}
               castShadow
               receiveShadow
@@ -283,7 +285,7 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
             <group name="Hair" position={[0, 40.87, 0]}>
               <mesh
                 name="Left1"
-                geometry={nodes.Left_1.geometry}
+                geometry={nodes.Left1.geometry}
                 material={materials.Hair}
                 castShadow
                 receiveShadow
@@ -291,7 +293,7 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
               />
               <mesh
                 name="Right1"
-                geometry={nodes.Right_1.geometry}
+                geometry={nodes.Right1.geometry}
                 material={materials.Hair}
                 castShadow
                 receiveShadow
@@ -312,7 +314,7 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
               />
               <mesh
                 name="Right Stem"
-                geometry={nodes['Right_Stem'].geometry}
+                geometry={nodes['Right Stem'].geometry}
                 material={materials.Glasses}
                 castShadow
                 receiveShadow
@@ -322,7 +324,7 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
               />
               <mesh
                 name="Left Stem"
-                geometry={nodes['Left_Stem'].geometry}
+                geometry={nodes['Left Stem'].geometry}
                 material={materials.Glasses}
                 castShadow
                 receiveShadow
@@ -332,7 +334,7 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
               />
               <mesh
                 name="Left Frame"
-                geometry={nodes['Left_Frame'].geometry}
+                geometry={nodes['Left Frame'].geometry}
                 material={materials.Glasses}
                 castShadow
                 receiveShadow
@@ -340,7 +342,7 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
               />
               <mesh
                 name="Right Frame"
-                geometry={nodes['Right_Frame'].geometry}
+                geometry={nodes['Right Frame'].geometry}
                 material={materials.Glasses}
                 castShadow
                 receiveShadow
@@ -353,7 +355,7 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
               position={[1.91, 31.82, 50.16]}>
               <mesh
                 name="Left2"
-                geometry={nodes.Left_2.geometry}
+                geometry={nodes.Left2.geometry}
                 material={materials.Hair}
                 castShadow
                 receiveShadow
@@ -363,7 +365,7 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
               />
               <mesh
                 name="Right2"
-                geometry={nodes.Right_2.geometry}
+                geometry={nodes.Right2.geometry}
                 material={materials.Hair}
                 castShadow
                 receiveShadow
@@ -375,7 +377,7 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
             <group name="Ears" position={[-0.59, -0.53, -0.95]}>
               <mesh
                 name="Left3"
-                geometry={nodes.Left_3.geometry}
+                geometry={nodes.Left3.geometry}
                 material={materials.Skin}
                 castShadow
                 receiveShadow
@@ -384,7 +386,7 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
               />
               <mesh
                 name="Right3"
-                geometry={nodes.Right_3.geometry}
+                geometry={nodes.Right3.geometry}
                 material={materials.Skin}
                 castShadow
                 receiveShadow
