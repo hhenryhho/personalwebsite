@@ -9,7 +9,6 @@ import {
   Switch,
   useColorMode,
   Link,
-  Button,
   Grid,
   GridItem,
   useBreakpointValue,
@@ -122,7 +121,7 @@ const Draft = () => {
         </Flex>
         <Flex
           sx={{
-            'animation-delay': '200ms'
+            animationDelay: '200ms'
           }}
           animation={animation}>
           <Flex
@@ -133,7 +132,7 @@ const Draft = () => {
         </Flex>
         <Flex
           sx={{
-            'animation-delay': '400ms'
+            animationDelay: '400ms'
           }}
           animation={animation}>
           <Flex
@@ -165,11 +164,6 @@ const Draft = () => {
           transform="translateX(-50%) translateY(-50%)">
           <Canvas shadows flat linear>
             <Scene zoom={1} currentSpeechBox={currentSpeechBox} />
-            <OrbitControls
-              enableZoom={false}
-              enablePan={false}
-              enableRotate={false}
-            />
           </Canvas>
         </Flex>
         <Flex

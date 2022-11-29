@@ -54,12 +54,12 @@ const Embed = () => {
             width: '4px'
           },
           '::-webkit-scrollbar-track': {
-            'border-radius': '10px',
+            borderRadius: '10px',
             background: '#f1f1f1',
             margin: '0px 10px 20px 0px'
           },
           '::-webkit-scrollbar-thumb': {
-            'border-radius': '10px',
+            borderRadius: '10px',
             background: '#888'
           },
           '::-webkit-scrollbar-thumb:hover': {

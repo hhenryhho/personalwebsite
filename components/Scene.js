@@ -133,14 +133,6 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
     }
   })
 
-  // Helper
-  useEffect(() => {
-    if (hover) {
-      // get child of phone
-      console.log(phoneObj.current.getObjectByName('Screen'))
-    }
-  }, [hover])
-
   return (
     <>
       <group ref={sceneObj} {...props} dispose={null}>
