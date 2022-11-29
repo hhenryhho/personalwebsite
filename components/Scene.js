@@ -1,6 +1,6 @@
-// import { useFrame } from '@react-three/fiber'
+import { useFrame } from '@react-three/fiber'
 // import useSpline from '@splinetool/r3f-spline'
-// import { OrthographicCamera, Mask, Html } from '@react-three/drei'
+import { OrthographicCamera, Mask, Html } from '@react-three/drei'
 import useMousePosition from '../hooks/useMousePosition'
 import { useEffect, useState, useRef } from 'react'
 import { useColorModeValue } from '@chakra-ui/react'
