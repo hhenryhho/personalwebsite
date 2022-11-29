@@ -1,8 +1,5 @@
 import { useFrame } from '@react-three/fiber'
-import dynamic from 'next/dynamic'
-const useSpline = dynamic(() => import('@splinetool/r3f-spline'), {
-  ssr: false
-})
+import useSpline from '@splinetool/r3f-spline'
 import { OrthographicCamera, Mask, Html } from '@react-three/drei'
 import useMousePosition from '../hooks/useMousePosition'
 import { useEffect, useState, useRef } from 'react'
@@ -17,125 +14,125 @@ const bodyRotationMulti = 0.1
 const lerpFactor = 0.05 // Higher value = faster lerp
 
 const Scene = ({ zoom, currentSpeechBox, ...props }) => {
-  // const { nodes, materials } = useSpline(
-  //   'https://prod.spline.design/23zzRH2Ogn3ixUwa/scene.splinecode'
-  // )
+  const { nodes, materials } = useSpline(
+    'https://prod.spline.design/23zzRH2Ogn3ixUwa/scene.splinecode'
+  )
 
-  // const color = useColorModeValue('#F8F4FF', '#0C0B14')
-  // const mousePosition = useMousePosition()
-  // const [hover, setHover] = useState(false)
+  const color = useColorModeValue('#F8F4FF', '#0C0B14')
+  const mousePosition = useMousePosition()
+  const [hover, setHover] = useState(false)
 
-  // const sceneObj = useRef()
-  // const characterObj = useRef()
-  // const headObj = useRef()
-  // const eyesObj = useRef()
-  // const eyebrowObj = useRef()
-  // const mouthObj = useRef()
-  // const bodyObj = useRef()
-  // const regClothes = useRef()
-  // const logoClothes = useRef()
-  // const phoneObj = useRef()
+  const sceneObj = useRef()
+  const characterObj = useRef()
+  const headObj = useRef()
+  const eyesObj = useRef()
+  const eyebrowObj = useRef()
+  const mouthObj = useRef()
+  const bodyObj = useRef()
+  const regClothes = useRef()
+  const logoClothes = useRef()
+  const phoneObj = useRef()
 
-  // const { position } = useSpring({
-  //   position: currentSpeechBox > 1 ? [0, 250, 0] : [0, 0, 0],
-  //   config: {
-  //     duration: 1000,
-  //     easing: easings.easeInOutBack
-  //   }
-  // })
+  const { position } = useSpring({
+    position: currentSpeechBox > 1 ? [0, 250, 0] : [0, 0, 0],
+    config: {
+      duration: 1000,
+      easing: easings.easeInOutBack
+    }
+  })
 
-  // // Rotate the head and body whenever the mouse position changes
-  // useEffect(() => {
-  //   // Get the width and height of the window
-  //   const windowWidth = window.innerWidth
-  //   const windowHeight = window.innerHeight
+  // Rotate the head and body whenever the mouse position changes
+  useEffect(() => {
+    // Get the width and height of the window
+    const windowWidth = window.innerWidth
+    const windowHeight = window.innerHeight
 
-  //   // Get the center coordinates of the window
-  //   const centerXCoordinate = windowWidth / 2
-  //   const centerYCoordinate = windowHeight / 2
-  //   // Ensure that the reference to the spline object is set
-  //   if (headObj.current && bodyObj.current) {
-  //     // Rotate the head and body on the y and x axis based on mouse position and multipliers
-  //     headObj.current.rotation.y =
-  //       ((mousePosition.x - centerXCoordinate) * headRotationMulti * 2.5) /
-  //       windowWidth
-  //     headObj.current.rotation.x =
-  //       ((mousePosition.y - centerYCoordinate) * headRotationMulti) /
-  //       windowHeight
+    // Get the center coordinates of the window
+    const centerXCoordinate = windowWidth / 2
+    const centerYCoordinate = windowHeight / 2
+    // Ensure that the reference to the spline object is set
+    if (headObj.current && bodyObj.current) {
+      // Rotate the head and body on the y and x axis based on mouse position and multipliers
+      headObj.current.rotation.y =
+        ((mousePosition.x - centerXCoordinate) * headRotationMulti * 2.5) /
+        windowWidth
+      headObj.current.rotation.x =
+        ((mousePosition.y - centerYCoordinate) * headRotationMulti) /
+        windowHeight
 
-  //     bodyObj.current.rotation.y =
-  //       ((mousePosition.x - centerXCoordinate) * bodyRotationMulti * 2.5) /
-  //       windowWidth
-  //     bodyObj.current.rotation.x =
-  //       ((mousePosition.y - centerYCoordinate) * bodyRotationMulti) /
-  //       windowHeight
-  //   }
+      bodyObj.current.rotation.y =
+        ((mousePosition.x - centerXCoordinate) * bodyRotationMulti * 2.5) /
+        windowWidth
+      bodyObj.current.rotation.x =
+        ((mousePosition.y - centerYCoordinate) * bodyRotationMulti) /
+        windowHeight
+    }
 
-  //   if (phoneObj.current) {
-  //     phoneObj.current.rotation.y =
-  //       ((mousePosition.x - centerXCoordinate) * bodyRotationMulti * 3) /
-  //       windowWidth
-  //     phoneObj.current.rotation.x =
-  //       ((mousePosition.y - centerYCoordinate) * bodyRotationMulti * 1.5) /
-  //       windowHeight
-  //   }
-  // }, [mousePosition])
+    if (phoneObj.current) {
+      phoneObj.current.rotation.y =
+        ((mousePosition.x - centerXCoordinate) * bodyRotationMulti * 3) /
+        windowWidth
+      phoneObj.current.rotation.x =
+        ((mousePosition.y - centerYCoordinate) * bodyRotationMulti * 1.5) /
+        windowHeight
+    }
+  }, [mousePosition])
 
-  // useFrame(state => {
-  //   // Aninmate the eyes getting tighter
-  //   eyesObj.current.scale.y = hover
-  //     ? MathUtils.lerp(eyesObj.current.scale.y, 0.45, lerpFactor)
-  //     : MathUtils.lerp(eyesObj.current.scale.y, 1, lerpFactor)
+  useFrame(state => {
+    // Aninmate the eyes getting tighter
+    eyesObj.current.scale.y = hover
+      ? MathUtils.lerp(eyesObj.current.scale.y, 0.45, lerpFactor)
+      : MathUtils.lerp(eyesObj.current.scale.y, 1, lerpFactor)
 
-  //   // Animate eyebrows getting wider
-  //   eyebrowObj.current.scale.x = hover
-  //     ? MathUtils.lerp(eyebrowObj.current.scale.x, 1.12, lerpFactor)
-  //     : MathUtils.lerp(eyebrowObj.current.scale.x, 1, lerpFactor)
+    // Animate eyebrows getting wider
+    eyebrowObj.current.scale.x = hover
+      ? MathUtils.lerp(eyebrowObj.current.scale.x, 1.12, lerpFactor)
+      : MathUtils.lerp(eyebrowObj.current.scale.x, 1, lerpFactor)
 
-  //   // Animate eyebrows raising and lowering
-  //   eyebrowObj.current.position.y = hover
-  //     ? MathUtils.lerp(eyebrowObj.current.position.y, 35.81, lerpFactor)
-  //     : MathUtils.lerp(eyebrowObj.current.position.y, 31.82, lerpFactor)
+    // Animate eyebrows raising and lowering
+    eyebrowObj.current.position.y = hover
+      ? MathUtils.lerp(eyebrowObj.current.position.y, 35.81, lerpFactor)
+      : MathUtils.lerp(eyebrowObj.current.position.y, 31.82, lerpFactor)
 
-  //   // Animate mouth y position
-  //   mouthObj.current.position.y = hover
-  //     ? MathUtils.lerp(mouthObj.current.position.y, -22.41, lerpFactor)
-  //     : MathUtils.lerp(mouthObj.current.position.y, -10.41, lerpFactor)
+    // Animate mouth y position
+    mouthObj.current.position.y = hover
+      ? MathUtils.lerp(mouthObj.current.position.y, -22.41, lerpFactor)
+      : MathUtils.lerp(mouthObj.current.position.y, -10.41, lerpFactor)
 
-  //   // Animate mouth scale x position
-  //   mouthObj.current.scale.x = hover
-  //     ? MathUtils.lerp(mouthObj.current.scale.x, 0.5, lerpFactor)
-  //     : MathUtils.lerp(mouthObj.current.scale.x, 1, lerpFactor)
+    // Animate mouth scale x position
+    mouthObj.current.scale.x = hover
+      ? MathUtils.lerp(mouthObj.current.scale.x, 0.5, lerpFactor)
+      : MathUtils.lerp(mouthObj.current.scale.x, 1, lerpFactor)
 
-  //   // Animate mouth scale y position
-  //   mouthObj.current.scale.y = hover
-  //     ? MathUtils.lerp(mouthObj.current.scale.y, 0.5, lerpFactor)
-  //     : MathUtils.lerp(mouthObj.current.scale.y, 1, lerpFactor)
+    // Animate mouth scale y position
+    mouthObj.current.scale.y = hover
+      ? MathUtils.lerp(mouthObj.current.scale.y, 0.5, lerpFactor)
+      : MathUtils.lerp(mouthObj.current.scale.y, 1, lerpFactor)
 
-  // // Swap clothes based on current speech box
-  // if (currentSpeechBox !== 1) {
-  //   regClothes.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor)
-  //   logoClothes.current.scale.lerp(new Vector3(1, 1, 1), lerpFactor)
-  // } else {
-  //   regClothes.current.scale.lerp(new Vector3(1, 1, 1), lerpFactor)
-  //   logoClothes.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor)
-  // }
+    // Swap clothes based on current speech box
+    if (currentSpeechBox !== 1) {
+      regClothes.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor)
+      logoClothes.current.scale.lerp(new Vector3(1, 1, 1), lerpFactor)
+    } else {
+      regClothes.current.scale.lerp(new Vector3(1, 1, 1), lerpFactor)
+      logoClothes.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor)
+    }
 
-  // // Animate the phone into view and remove character
-  // if (currentSpeechBox === 3) {
-  //   phoneObj.current.scale.lerp(new Vector3(5, 5, 5), lerpFactor) // Scale in phone
-  //   phoneObj.current.position.lerp(new Vector3(0, 0, 0), lerpFactor) // Move phone to center
-  //   characterObj.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor)
-  // } else {
-  //   phoneObj.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor) // Scale out phone
-  //   phoneObj.current.position.lerp(new Vector3(0, -200, 0), lerpFactor) // Move phone out of view
-  //   characterObj.current.scale.lerp(new Vector3(1, 1, 1), lerpFactor)
-  // }
-  // })
+    // Animate the phone into view and remove character
+    if (currentSpeechBox === 3) {
+      phoneObj.current.scale.lerp(new Vector3(5, 5, 5), lerpFactor) // Scale in phone
+      phoneObj.current.position.lerp(new Vector3(0, 0, 0), lerpFactor) // Move phone to center
+      characterObj.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor)
+    } else {
+      phoneObj.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor) // Scale out phone
+      phoneObj.current.position.lerp(new Vector3(0, -200, 0), lerpFactor) // Move phone out of view
+      characterObj.current.scale.lerp(new Vector3(1, 1, 1), lerpFactor)
+    }
+  })
 
   return (
     <>
-      {/* <group ref={sceneObj} {...props} dispose={null}>
+      <group ref={sceneObj} {...props} dispose={null}>
         <directionalLight
           name="Directional Light 2"
           intensity={1.5}
@@ -419,7 +416,7 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
           intensity={0.75}
           color="#eaeaea"
         />
-      </group> */}
+      </group>
     </>
   )
 }
