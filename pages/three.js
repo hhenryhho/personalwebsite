@@ -1,7 +1,7 @@
 import { Flex, Button, Text } from '@chakra-ui/react'
-import { Loader, OrbitControls, useProgress } from '@react-three/drei'
+import { OrbitControls } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
-import { useState, Suspense, useEffect } from 'react'
+import { useState } from 'react'
 import Scene from '../components/Scene'
 
 export const Three = () => {
@@ -10,16 +10,14 @@ export const Three = () => {
   return (
     <Flex h="100vh" w="100vw" align="center" justify="center">
       <Flex h="1000px" w="1000px">
-        <Suspense fallback={<Loader />}>
-          <Canvas shadows flat linear>
-            <Scene zoom={1} currentSpeechBox={currentSpeechBox} />
-            <OrbitControls
-              enableZoom={false}
-              enablePan={false}
-              enableRotate={true}
-            />
-          </Canvas>
-        </Suspense>
+        <Canvas shadows flat linear>
+          <Scene zoom={1} currentSpeechBox={currentSpeechBox} />
+          <OrbitControls
+            enableZoom={false}
+            enablePan={false}
+            enableRotate={true}
+          />
+        </Canvas>
       </Flex>
       <Flex position="fixed" bottom="10%">
         <Button
