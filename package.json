@@ -5,14 +5,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "ngrok": "ngrok http 3000"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.0.11",
     "@chakra-ui/react": "^2.3.7",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
-    "@fullpage/react-fullpage": "^0.1.30",
     "@react-spring/three": "^9.5.5",
     "@react-three/drei": "^9.43.3",
     "@splinetool/loader": "^0.9.145",
@@ -31,6 +31,7 @@
   },
   "devDependencies": {
     "eslint": "7.32.0",
-    "eslint-config-next": "^13.0.2"
+    "eslint-config-next": "^13.0.2",
+    "ngrok": "^4.3.3"
   }
 }

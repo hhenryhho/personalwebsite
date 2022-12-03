@@ -11,7 +11,8 @@ export const globalStyles = {
   styles: {
     global: props => ({
       body: {
-        bg: mode('brand.lightBg', 'brand.darkBg')(props)
+        bg: mode('brand.lightBg', 'brand.darkBg')(props),
+        overscrollBehavior: 'none'
       }
     })
   }

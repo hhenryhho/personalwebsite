@@ -1,30 +1,42 @@
-import { Flex, Text, Kbd } from '@chakra-ui/react'
-import { useEffect } from 'react'
+import { Flex, Text, Link, useColorModeValue } from '@chakra-ui/react'
+import { useEffect, useRef } from 'react'
 import Typewriter from 'typewriter-effect'
 
-const SpeechBox = ({ typewriterRef, phrase, subNote, children }) => {
+/**
+ * React component used to create a RPG styled speech box.
+ *
+ * @param {string}           phrases       an string to be typed inside the box
+ * @param {string}           subNote       a string to be displayed below the box
+ * @param {Function}         leftButton    a function to be called when the left button is clicked
+ * @param {Function}         rightButton   a function to be called when the right button is clicked
+ * @param {boolean}          active      a boolean to determine if the typewriter should be typing
+ */
+const SpeechBox = ({ phrase, subNote, leftButton, rightButton, active }) => {
+  const colorMode = useColorModeValue('white', 'black')
+  const typewriterRef = useRef(null)
+  useEffect(() => {
+    if (active && typewriterRef.current) {
+      typewriterRef.current.start()
+    }
+  }, [active, typewriterRef.current])
   return (
-    <Flex
-      position="absolute"
-      left="50%"
-      transform="translateX(-50%)"
-      bottom="0"
-      flexDir="column"
-      mb={['0px', '0px', '10vh']}>
-      <Flex w={['100vw', '100vw', '500px']} justify="center">
+    <Flex flexDir="column">
+      <Flex
+        w={['100vw', '100vw', '500px']}
+        justify="center"
+        visibility={['hidden', 'hidden', 'visible']}>
         {subNote}
       </Flex>
       <Flex
-        h={['160px', '130px', '130px']}
+        position="relative"
+        h={['130px', '130px', '130px']}
         w={['100vw', '100vw', '500px']}
         justify="center"
         align="center"
-        border="1px solid black"
-        color="black"
-        bgColor="white"
+        border="2px"
+        bgColor={colorMode}
         shadow="2xl"
-        p="15px"
-        zIndex="999">
+        p="15px">
         <Text as="div" textAlign="center">
           {phrase && typewriterRef && (
             <Typewriter
@@ -38,7 +50,28 @@ const SpeechBox = ({ typewriterRef, phrase, subNote, children }) => {
             />
           )}
         </Text>
-        {children}
+        {leftButton && (
+          <Link
+            position="absolute"
+            bottom="0"
+            left="0"
+            onClick={() => {
+              leftButton()
+            }}>
+            Back
+          </Link>
+        )}
+        {rightButton && (
+          <Link
+            position="absolute"
+            bottom="0"
+            right="0"
+            onClick={() => {
+              rightButton()
+            }}>
+            Continue
+          </Link>
+        )}
       </Flex>
     </Flex>
   )

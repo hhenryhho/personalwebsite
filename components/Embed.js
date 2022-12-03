@@ -1,35 +1,33 @@
 import { ExternalLinkIcon } from '@chakra-ui/icons'
-import { Flex, Text, Center, Image, chakra } from '@chakra-ui/react'
-import React from 'react'
-const ChakraNextImage = chakra(Image, {
-  baseStyle: { maxH: 120, maxW: 120 },
-  shouldForwardProp: prop =>
-    [
-      'width',
-      'height',
-      'src',
-      'alt',
-      'quality',
-      'placeholder',
-      'blurDataURL',
-      'loader '
-    ].includes(prop)
-})
-const Embed = () => {
+import {
+  Flex,
+  Text,
+  Center,
+  Image,
+  LinkOverlay,
+  LinkBox
+} from '@chakra-ui/react'
+
+const Embed = ({ colorMode, context }) => {
+  const phoneBgColor = colorMode === 'light' ? '#FFFFFF' : '#202124'
+  const searchBarColor = colorMode === 'light' ? '#DBDBDB' : '#303134'
+  const homebarColor = colorMode === 'light' ? 'black' : 'white'
+
   return (
     <Flex
+      position="relative"
       id="phone-wrapper"
       flexDir="column"
       h="480px"
       w="220px"
       borderRadius="20px"
-      bg="white">
+      bg={phoneBgColor}>
       <Flex id="search-bar" boxShadow=" 0px 1px 1px -1px gray" p="10px">
         <Flex
           position="relative"
           h="30px"
           w="200px"
-          bg="#DBDBDB"
+          bg={searchBarColor}
           borderRadius="20px">
           <Center h="100%" w="100%">
             <Text fontSize="14px">henryho.dev/projects</Text>
@@ -67,34 +65,71 @@ const Embed = () => {
           }
         }}>
         <Flex h="100%" w="100%" flexDir="column" p="5px" mb="200px">
-          <Text fontSize="14px" textAlign="center">
-            I try to use different tech stacks for each project. Hover over each
-            card to see the tech stack used.
-          </Text>
-          <Text as="u">First Project</Text>
-          <Image
-            h="150px"
-            w="200px"
-            src="/projects/monitor.gif"
-            alt="breaking bot gif"
-          />
-          <Text as="u">Second Project</Text>
-          <Image
-            h="150px"
-            w="200px"
-            src="/projects/pathfinder.gif"
-            alt="pathfinder gif"
-          />
-          <Text as="u">Third Project</Text>
-          <Image
-            h="150px"
-            w="200px"
-            src="/projects/shopify.gif"
-            alt="shopify gif"
-          />
+          <Flex flexDir="column" align="center">
+            <Text fontSize="20px" textAlign="center">
+              Scroll through this phone and click on projects to learn more!
+            </Text>
+            <LinkBox as="article">
+              <LinkOverlay
+                onClick={() => context.setCounter(4)}
+                cursor="pointer"
+              />
+              <Text as="u">Graphic Card Bot</Text>
+              <Image
+                h="150px"
+                w="200px"
+                src="/projects/monitor.gif"
+                alt="breaking bot gif"
+              />
+            </LinkBox>
+          </Flex>
+          <Flex flexDir="column" align="center">
+            <LinkBox>
+              <LinkOverlay
+                onClick={() => context.setCounter(5)}
+                cursor="pointer"
+              />
+              <Text as="u">Pathfinding Visualizer</Text>
+              <Image
+                h="150px"
+                w="200px"
+                src="/projects/pathfinder.gif"
+                alt="pathfinder gif"
+              />
+            </LinkBox>
+          </Flex>
+          <Flex flexDir="column" align="center">
+            <LinkBox>
+              <LinkOverlay
+                onClick={() => context.setCounter(6)}
+                cursor="pointer"
+              />
+              <Text as="u">Instagram Clone</Text>
+              <Image
+                h="150px"
+                w="200px"
+                src="/projects/shopify.gif"
+                alt="shopify gif"
+              />
+            </LinkBox>
+          </Flex>
+          <Flex flexDir="column" align="center">
+            <LinkBox>
+              <LinkOverlay
+                onClick={() => context.setCounter(7)}
+                cursor="pointer"
+              />
+              <Text as="u">Credit Points Tracker</Text>
+              <Image
+                h="150px"
+                w="200px"
+                src="/projects/c1tech.png"
+                alt="shopify gif"
+              />
+            </LinkBox>
+          </Flex>
         </Flex>
       </Flex>
-      <Flex></Flex>
       <Flex
         id="home-bar"
         h="4px"
@@ -102,7 +137,7 @@ const Embed = () => {
         position="fixed"
         bottom="3px"
         left="50%"
-        bg="black"
+        bg={homebarColor}
         transform="translateX(-50%)"
         borderRadius="20px"
       />

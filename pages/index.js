@@ -1,46 +1,37 @@
-import { useProgress } from '@react-three/drei'
-import { Canvas } from '@react-three/fiber'
+import { useEffect, useRef, useState, useContext } from 'react'
 import {
   Center,
   Flex,
   Text,
   chakra,
-  shouldForwardProp,
   Switch,
-  useColorMode,
   Link,
   Grid,
   GridItem,
-  useBreakpointValue,
   keyframes,
-  Kbd
+  Tag,
+  Kbd,
+  Image,
+  shouldForwardProp,
+  useColorMode,
+  useColorModeValue,
+  Heading,
+  Container
 } from '@chakra-ui/react'
 import { SunIcon, MoonIcon } from '@chakra-ui/icons'
-import { useEffect, useRef, useState } from 'react'
+import { Canvas } from '@react-three/fiber'
+import { useProgress } from '@react-three/drei'
 import { motion, isValidMotionProp } from 'framer-motion'
-import SpeechBox from '../components/SpeechBox'
-import Image from 'next/image'
-import CustomSlide from '../components/Slide'
 import useKeyPress from '../hooks/useKeyPress'
 import Scene from '../components/Scene'
+import SpeechBox from '../components/SpeechBox'
+import CustomSlide from '../components/Slide'
+import { useWindowSize } from '../hooks/useWindowSize'
+import { CounterContext } from './_app'
+import { capitalone, pathfinder, restockBot, shopify } from '../util/phrases'
 
 const ChakraBox = chakra(motion.div, {
   shouldForwardProp: prop => isValidMotionProp(prop) || shouldForwardProp(prop)
-})
-
-const ChakraNextImage = chakra(Image, {
-  baseStyle: { maxH: 120, maxW: 120 },
-  shouldForwardProp: prop =>
-    [
-      'width',
-      'height',
-      'src',
-      'alt',
-      'quality',
-      'placeholder',
-      'blurDataURL',
-      'loader '
-    ].includes(prop)
 })
 
 const bounce = keyframes`
@@ -52,45 +43,34 @@ const animation = `${bounce} 600ms cubic-bezier(.7,0,1,1) alternate infinite`
 
 const Draft = () => {
   const [loading, setLoading] = useState(true)
+  const counterCtx = useContext(CounterContext)
+
+  const domRef = useRef(null)
+
   const { progress } = useProgress()
+
+  const { colorMode, toggleColorMode } = useColorMode()
+  const gridColorMode = useColorModeValue('white', 'black')
+
+  const windowHeight = useWindowSize().height
+  const windowWidth = useWindowSize().width
 
   const rightArrow = useKeyPress('ArrowRight')
   const leftArrow = useKeyPress('ArrowLeft')
-  const { colorMode, toggleColorMode } = useColorMode()
-  const [currentSpeechBox, setCurrentSpeechBox] = useState(1)
-
-  const introSpeechBox = useRef(null)
-  const experienceSpeechBox = useRef(null)
-  const projectSpeechBox = useRef(null)
-
-  const variant = useBreakpointValue({
-    base: 'mobile',
-    sm: 'sm',
-    md: 'md'
-  })
-
-  // Start the typewriter for the first box
-  useEffect(() => {
-    if (introSpeechBox.current && !loading) introSpeechBox.current.start()
-  }, [introSpeechBox, loading])
 
   // Checks if the right or left arrow key is pressed and changes the current speech box
   useEffect(() => {
     if (rightArrow) {
-      if (currentSpeechBox === 1) {
-        setCurrentSpeechBox(2)
-        experienceSpeechBox.current.start()
-      } else if (currentSpeechBox === 2) {
-        setCurrentSpeechBox(3)
-        projectSpeechBox.current.start()
+      if (counterCtx.counter < 3) {
+        counterCtx.setCounter(counterCtx.counter + 1)
       }
     } else if (leftArrow) {
-      if (currentSpeechBox === 3) {
-        setCurrentSpeechBox(2)
-        experienceSpeechBox.current.start()
-      } else if (currentSpeechBox === 2) {
-        setCurrentSpeechBox(1)
-        introSpeechBox.current.start()
+      if (counterCtx.counter > 1) {
+        if (counterCtx.counter > 3) {
+          counterCtx.setCounter(3)
+        } else {
+          counterCtx.setCounter(counterCtx.counter - 1)
+        }
       }
     }
   }, [rightArrow, leftArrow])
@@ -109,7 +89,7 @@ const Draft = () => {
       <Center
         id="preloader"
         position="fixed"
-        h="100vh"
+        h="100%"
         w="100vw"
         visibility={!loading ? 'hidden' : 'visible'}>
         <Flex animation={animation}>
@@ -143,9 +123,8 @@ const Draft = () => {
         </Flex>
       </Center>
       <ChakraBox
+        ref={domRef}
         id="main"
-        h="100vh"
-        w="100vw"
         initial={{ opacity: 0 }}
         animate={{
           opacity: loading ? 0 : 1
@@ -156,14 +135,23 @@ const Draft = () => {
         <Flex
           id="splinewrapper"
           position="fixed"
-          zIndex="999"
           top="50%"
           left="50%"
-          h="100vh"
+          h="100%"
           w="100vw"
           transform="translateX(-50%) translateY(-50%)">
-          <Canvas shadows flat linear>
-            <Scene zoom={1} currentSpeechBox={currentSpeechBox} />
+          <Canvas
+            shadows
+            flat
+            linear
+            style={{ pointerEvents: 'none' }}
+            eventSource={domRef}
+            eventPrefix="page">
+            <Scene
+              zoom={windowHeight > 800 && windowWidth > 800 ? 1 : 0.7}
+              currentSpeechBox={counterCtx.counter}
+              portal={domRef}
+            />
           </Canvas>
         </Flex>
         <Flex
@@ -180,6 +168,7 @@ const Draft = () => {
             size="lg"
             mx="16px"
             onChange={toggleColorMode}
+            isChecked={colorMode === 'dark'}
           />
           <Flex justify="center" align="center">
             <MoonIcon />
@@ -187,7 +176,7 @@ const Draft = () => {
         </Flex>
         <Flex
           id="links"
-          opacity={[0, 0, 1]}
+          visibility={['hidden', 'hidden', 'visible']}
           position="fixed"
           bottom="48px"
           right="48px"
@@ -195,51 +184,25 @@ const Draft = () => {
           <Flex flexDir="column">
             <Text
               as={Link}
-              color={
-                currentSpeechBox === 1
-                  ? colorMode === 'light'
-                    ? 'brand.purpleHighlight'
-                    : 'brand.purpleHighlight'
-                  : colorMode === 'light'
-                  ? 'black'
-                  : 'white'
-              }
+              color={counterCtx.counter === 1 && 'brand.purpleHighlight'}
               onClick={() => {
-                setCurrentSpeechBox(1)
+                counterCtx.setCounter(1)
               }}>
               Intro
             </Text>
             <Text
               as={Link}
-              color={
-                currentSpeechBox === 2
-                  ? colorMode === 'light'
-                    ? 'brand.purpleHighlight'
-                    : 'brand.purpleHighlight'
-                  : colorMode === 'light'
-                  ? 'black'
-                  : 'white'
-              }
+              color={counterCtx.counter === 2 && 'brand.purpleHighlight'}
               onClick={() => {
-                setCurrentSpeechBox(2)
-                experienceSpeechBox.current.start()
+                counterCtx.setCounter(2)
               }}>
               Experience
             </Text>
             <Text
               as={Link}
-              color={
-                currentSpeechBox === 3
-                  ? colorMode === 'light'
-                    ? 'brand.purpleHighlight'
-                    : 'brand.purpleHighlight'
-                  : colorMode === 'light'
-                  ? 'black'
-                  : 'white'
-              }
+              color={counterCtx.counter === 3 && 'brand.purpleHighlight'}
               onClick={() => {
-                setCurrentSpeechBox(3)
-                projectSpeechBox.current.start()
+                counterCtx.setCounter(3)
               }}>
               Projects
             </Text>
@@ -248,19 +211,14 @@ const Draft = () => {
         <Flex
           id="progress-bar"
           position="fixed"
-          h="100vh"
+          h="100%"
           top="0"
           right="0"
           width="12px"
           zIndex="999">
           <ChakraBox
             animate={{
-              height:
-                currentSpeechBox === 2
-                  ? '50%'
-                  : currentSpeechBox === 3
-                  ? '100%'
-                  : '0%'
+              height: `${counterCtx.counter * 33.33}%`
             }}
             transition={{ ease: 'easeInOut', duration: 1 }}
             h="0px"
@@ -269,39 +227,22 @@ const Draft = () => {
             border="1px black solid"
           />
         </Flex>
-        <CustomSlide active={currentSpeechBox === 1}>
+        <CustomSlide active={counterCtx.counter === 1}>
           <SpeechBox
             phrase="Hi! My name is Henry and I am a software engineer. I graduated on May 2022 with a degree in Finance and Computer Science."
-            typewriterRef={introSpeechBox}
+            topNote="intro"
             subNote={
-              !(variant === 'mobile' || variant === 'sm') && (
-                <Text>
-                  You can also use the <Kbd>{'Arrow Keys'}</Kbd> to navigate
-                </Text>
-              )
-            }>
-            <Link
-              position="absolute"
-              bottom="0"
-              right="0"
-              onClick={() => {
-                setCurrentSpeechBox(2)
-                experienceSpeechBox.current.start()
-              }}>
-              Continue
-            </Link>
-          </SpeechBox>
+              <Text>
+                You can also use the <Kbd>{'Arrow Keys'}</Kbd> to navigate
+              </Text>
+            }
+            rightButton={() => counterCtx.setCounter(counterCtx.counter + 1)}
+            active={!loading && counterCtx.counter === 1}
+          />
         </CustomSlide>
 
-        <CustomSlide active={currentSpeechBox === 2}>
-          <Flex
-            position="fixed"
-            maxW="400px"
-            flexDir="column"
-            bottom={['25%', '25%', '30%']}
-            h={['385px', '385px', '520px']}
-            left="50%"
-            transform="translateX(-50%)">
+        <CustomSlide active={counterCtx.counter === 2}>
+          <Flex maxW="400px" flexDir="column">
             <Grid
               templateAreas={`"image main"
                               "image main"`}
@@ -309,17 +250,10 @@ const Draft = () => {
               gridTemplateColumns={'100px 230px'}
               mb="16px"
               border="2px"
-              bg="white">
+              bg={gridColorMode}>
               <GridItem area="image">
-                <Center h="100%">
-                  <ChakraNextImage
-                    src="/work/guidewire.png"
-                    alt="guidewire logo"
-                    height="50"
-                    width="50"
-                    h="auto"
-                    w="auto"
-                  />
+                <Center h="100%" p="10px">
+                  <Image src="/work/guidewire.png" alt="guidewire logo" />
                 </Center>
               </GridItem>
               <GridItem area="main">
@@ -341,17 +275,11 @@ const Draft = () => {
               gridTemplateRows={'90px'}
               gridTemplateColumns={'100px 230px'}
               border="2px"
-              bg="white">
+              bg={gridColorMode}
+              mb="16px">
               <GridItem area="image">
-                <Center h="100%">
-                  <ChakraNextImage
-                    src="/work/celestica.png"
-                    alt="celestica logo"
-                    height="50"
-                    width="50"
-                    h="auto"
-                    w="auto"
-                  />
+                <Center h="100%" p="10px">
+                  <Image src="/work/celestica.png" alt="celestica logo" />
                 </Center>
               </GridItem>
               <GridItem area="main">
@@ -369,42 +297,93 @@ const Draft = () => {
           </Flex>
           <SpeechBox
             phrase="I am an incoming Software Engineer at Amazon. Here are some of my previous roles."
-            typewriterRef={experienceSpeechBox}>
-            <Link
-              position="absolute"
-              bottom="0"
-              left="0"
-              onClick={() => {
-                setCurrentSpeechBox(1)
-              }}>
-              Back
-            </Link>
-            <Link
-              position="absolute"
-              bottom="0"
-              right="0"
-              onClick={() => {
-                setCurrentSpeechBox(3)
-                projectSpeechBox.current.start()
-              }}>
-              Continue
-            </Link>
-          </SpeechBox>
+            leftButton={() => counterCtx.setCounter(counterCtx.counter - 1)}
+            rightButton={() => counterCtx.setCounter(counterCtx.counter + 1)}
+            active={counterCtx.counter === 2}
+          />
         </CustomSlide>
-        <CustomSlide active={currentSpeechBox == 3}>
+        <CustomSlide active={counterCtx.counter == 3}>
           <SpeechBox
             phrase="When I am not working, I like to work on small side projects to teach myself new technologies."
-            typewriterRef={projectSpeechBox}>
-            <Link
-              position="absolute"
-              bottom="0"
-              left="0"
-              onClick={() => {
-                setCurrentSpeechBox(2)
-              }}>
-              Back
-            </Link>
-          </SpeechBox>
+            leftButton={() => counterCtx.setCounter(counterCtx.counter - 1)}
+            active={counterCtx.counter == 3}
+          />
+        </CustomSlide>
+        <CustomSlide active={counterCtx.counter == 4}>
+          <Container maxW="container.xl" overflowY="scroll">
+            <Flex flexDir="column" h="100%" w="100%">
+              <Image
+                src="/projects/monitor.gif"
+                h="90%"
+                w={['100%', '100%', '50%']}
+                py="16px"
+              />
+              <Flex flexDir="column" h="100%" w="100%">
+                <Heading>About</Heading>
+                <Text>
+                  I built this bot in order to monitor the availability of
+                  graphic cards during the shortage in early 2021. All cards
+                  were constantly sold out due to miners buying them up. I
+                  originally built this using web scapers but found it was too
+                  slow, so I switched to a request based system by
+                  reverse-engineering network calls made by the website. I also
+                  built a discord bot to notify users when a card was available.
+                </Text>
+                <Heading>Technologies Used</Heading>
+                <Flex>
+                  {restockBot.tech.map((tech, index) => (
+                    <Tag key={index} mr="4px" mb="4px" variant="outline">
+                      {tech}
+                    </Tag>
+                  ))}
+                </Flex>
+                <Heading>Challenges</Heading>
+                <Text>
+                  The biggest challenge was figuring out how to get past
+                  anti-bot protection on the websites. I found out quickly that
+                  the website would block my IP if I made too many requests in a
+                  short period of time. I had to figure out how to make the
+                  requests look like they were coming from different people, so
+                  I used multiple proxies to make the requests look like they
+                  were coming from different locations. After a while, they
+                  implemented Google's reCaptcha system, which added another
+                  layer of complexity. I figured out how to bypass this by
+                  researching how the system worked, and managed to consistently
+                  get around it.
+                </Text>
+              </Flex>
+            </Flex>
+          </Container>
+          <SpeechBox
+            phrase={restockBot.desc}
+            subNote={<Heading>{restockBot.name}</Heading>}
+            leftButton={() => counterCtx.setCounter(3)}
+            active={counterCtx.counter == 4}
+          />
+        </CustomSlide>
+        <CustomSlide active={counterCtx.counter == 5}>
+          <SpeechBox
+            phrase={pathfinder.desc}
+            subNote={<Heading>{pathfinder.name}</Heading>}
+            leftButton={() => counterCtx.setCounter(3)}
+            active={counterCtx.counter == 5}
+          />
+        </CustomSlide>
+        <CustomSlide active={counterCtx.counter == 6}>
+          <SpeechBox
+            phrase={shopify.desc}
+            subNote={<Heading>{shopify.name}</Heading>}
+            leftButton={() => counterCtx.setCounter(3)}
+            active={counterCtx.counter == 6}
+          />
+        </CustomSlide>
+        <CustomSlide active={counterCtx.counter == 7}>
+          <SpeechBox
+            phrase={capitalone.desc}
+            subNote={<Heading>{capitalone.name}</Heading>}
+            leftButton={() => counterCtx.setCounter(3)}
+            active={counterCtx.counter == 7}
+          />
         </CustomSlide>
       </ChakraBox>
     </>

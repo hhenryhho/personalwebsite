@@ -1,29 +1,43 @@
-import { useFrame } from '@react-three/fiber'
-import { OrthographicCamera, Mask, Html } from '@react-three/drei'
-import useMousePosition from '../hooks/useMousePosition'
 import { useEffect, useState, useRef } from 'react'
-import { useColorModeValue } from '@chakra-ui/react'
+import {
+  OrthographicCamera,
+  Mask,
+  Html,
+  Float as FloatImpl,
+  Clone,
+  SpotLight
+} from '@react-three/drei'
+import { useFrame } from '@react-three/fiber'
 import { BackSide, Vector3, MathUtils } from 'three'
 import { useSpring, animated, easings } from '@react-spring/three'
-import Embed from '../components/Embed'
 import useSpline from '@splinetool/r3f-spline'
+import { useColorModeValue } from '@chakra-ui/react'
+import Embed from '../components/Embed'
+import { useContext } from 'react'
+import { CounterContext } from '../pages/_app'
+
+import useMousePosition from '../hooks/useMousePosition'
+import useTouchPosition from '../hooks/useTouchPosition'
 
 const headRotationMulti = 0.25
 const bodyRotationMulti = 0.1
 
 const lerpFactor = 0.05 // Higher value = faster lerp
 
-const Scene = ({ zoom, currentSpeechBox, ...props }) => {
+/**
+ * React component used to create a custom 3D scene.
+ *
+ * @param {Number}            zoom              the zoom level of the camera
+ * @param {MutableRefObject}  portal            a reference to where the Embed component should be portal'd to
+ */
+const Scene = ({ zoom, portal, ...props }) => {
   const { nodes, materials } = useSpline(
     'https://prod.spline.design/23zzRH2Ogn3ixUwa/scene.splinecode'
   )
-  const color = useColorModeValue('#F8F4FF', '#0C0B14')
+  const colorMode = useColorModeValue('light', 'dark')
   const mousePosition = useMousePosition()
+  const touchPosition = useTouchPosition()
   const [hover, setHover] = useState(false)
-
-  useEffect(() => {
-    console.log(nodes, materials)
-  }, [nodes, materials])
 
   const sceneObj = useRef()
   const characterObj = useRef()
@@ -35,17 +49,23 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
   const regClothes = useRef()
   const logoClothes = useRef()
   const phoneObj = useRef()
+  const light = useRef()
+
+  const counterCtx = useContext(CounterContext)
 
   const { position } = useSpring({
-    position: currentSpeechBox > 1 ? [0, 250, 0] : [0, 0, 0],
+    position: counterCtx.counter > 1 ? [0, 250, 0] : [0, 0, 0],
     config: {
       duration: 1000,
       easing: easings.easeInOutBack
     }
   })
 
-  // Rotate the head and body whenever the mouse position changes
   useEffect(() => {
+    // Determine which movement to use
+    const position =
+      touchPosition.x || touchPosition.y ? touchPosition : mousePosition
+
     // Get the width and height of the window
     const windowWidth = window.innerWidth
     const windowHeight = window.innerHeight
@@ -53,33 +73,43 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
     // Get the center coordinates of the window
     const centerXCoordinate = windowWidth / 2
     const centerYCoordinate = windowHeight / 2
-    // Ensure that the reference to the spline object is set
+
+    // Rotate the character based on mouse position
     if (headObj.current && bodyObj.current) {
-      // Rotate the head and body on the y and x axis based on mouse position and multipliers
       headObj.current.rotation.y =
-        ((mousePosition.x - centerXCoordinate) * headRotationMulti * 2.5) /
+        ((position.x - centerXCoordinate) * headRotationMulti * 2.5) /
         windowWidth
       headObj.current.rotation.x =
-        ((mousePosition.y - centerYCoordinate) * headRotationMulti) /
-        windowHeight
-
+        ((position.y - centerYCoordinate) * headRotationMulti) / windowHeight
       bodyObj.current.rotation.y =
-        ((mousePosition.x - centerXCoordinate) * bodyRotationMulti * 2.5) /
+        ((position.x - centerXCoordinate) * bodyRotationMulti * 2.5) /
         windowWidth
       bodyObj.current.rotation.x =
-        ((mousePosition.y - centerYCoordinate) * bodyRotationMulti) /
+        ((position.y - centerYCoordinate) * bodyRotationMulti) / windowHeight
+    }
+
+    // Rotate the phone based on mouse position
+    if (phoneObj.current) {
+      phoneObj.current.rotation.y =
+        ((position.x - centerXCoordinate) * bodyRotationMulti * 3) / windowWidth
+      phoneObj.current.rotation.x =
+        ((position.y - centerYCoordinate) * bodyRotationMulti * 1.5) /
         windowHeight
     }
 
-    if (phoneObj.current) {
-      phoneObj.current.rotation.y =
-        ((mousePosition.x - centerXCoordinate) * bodyRotationMulti * 3) /
-        windowWidth
-      phoneObj.current.rotation.x =
-        ((mousePosition.y - centerYCoordinate) * bodyRotationMulti * 1.5) /
-        windowHeight
+    // Control the spotlight based on mouse position
+    if (colorMode === 'dark') {
+      light.current.target.position.lerp(
+        new Vector3(
+          position.x - centerXCoordinate,
+          -(position.y - centerYCoordinate),
+          0
+        ),
+        1
+      )
+      light.current.target.updateMatrixWorld()
     }
-  }, [mousePosition])
+  }, [mousePosition, touchPosition])
 
   useFrame(state => {
     if (eyesObj.current) {
@@ -119,27 +149,42 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
 
     if (regClothes.current && logoClothes.current) {
       // Swap clothes based on current speech box
-      if (currentSpeechBox !== 1) {
-        regClothes.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor)
-        logoClothes.current.scale.lerp(new Vector3(1, 1, 1), lerpFactor)
+      if (counterCtx.counter !== 1) {
+        regClothes.current.scale.lerp(new Vector3(0, 0, 0), 1)
+        logoClothes.current.scale.lerp(new Vector3(1, 1, 1), 1)
       } else {
-        regClothes.current.scale.lerp(new Vector3(1, 1, 1), lerpFactor)
-        logoClothes.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor)
+        regClothes.current.scale.lerp(new Vector3(1, 1, 1), 1)
+        logoClothes.current.scale.lerp(new Vector3(0, 0, 0), 1)
       }
     }
 
-    if (phoneObj.current && characterObj.current) {
-      // Animate the phone into view and remove character
-      if (currentSpeechBox === 3) {
+    // Animate the phone into view for the 3rd speech box
+    if (phoneObj.current) {
+      if (counterCtx.counter === 3) {
         phoneObj.current.scale.lerp(new Vector3(5, 5, 5), lerpFactor) // Scale in phone
         phoneObj.current.position.lerp(new Vector3(0, 0, 0), lerpFactor) // Move phone to center
-        characterObj.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor)
       } else {
         phoneObj.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor) // Scale out phone
         phoneObj.current.position.lerp(new Vector3(0, -200, 0), lerpFactor) // Move phone out of view
+      }
+    }
+
+    // Animate character out of view for 3rd and above speech boxes
+    if (characterObj.current) {
+      if (counterCtx.counter >= 3) {
+        characterObj.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor)
+      } else {
         characterObj.current.scale.lerp(new Vector3(1, 1, 1), lerpFactor)
       }
     }
+
+    // Move the camera so background looks like its moving
+    state.camera.position.lerp(
+      new Vector3(-state.pointer.x * 50, -state.pointer.y * 50, 1000),
+      0.1
+    )
+    state.camera.lookAt(0, 0, 0)
+    state.camera.updateProjectionMatrix()
   })
 
   return (
@@ -173,7 +218,7 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
           shadow-camera-right={500}
           shadow-camera-top={500}
           shadow-camera-bottom={-500}
-          position={[-254.61, 269.33, 300]}
+          position={[-254.61, 369.33, 300]}
         />
         <mesh
           name="floor"
@@ -183,9 +228,35 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
           castShadow
           receiveShadow>
           <planeGeometry args={[10000, 10000, 1, 1]} />
-          <meshLambertMaterial color={color} side={BackSide} />
+          <meshLambertMaterial color="#F8F4FF" side={BackSide} />
         </mesh>
-
+        <Float object={nodes['Bg Sphere']} position={[0, 300, -100]} />
+        <Float
+          object={nodes['Bg Sphere']}
+          position={[250, 10, 100]}
+          scale={1.5}
+        />
+        <Float object={nodes['Bg Sphere']} position={[-200, 20, 10]} />
+        <Float object={nodes['Bg Sphere']} position={[200, 300, 100]} />
+        <Float object={nodes['Bg Sphere']} position={[-300, 200, 10]} />
+        <Float object={nodes['Bg Sphere']} position={[10, -200, 10]} />
+        <Float
+          object={nodes['Bg Sphere']}
+          position={[-50, 100, -50]}
+          scale={1.5}
+        />
+        <Float object={nodes['Bg Sphere']} position={[-50, -300, 100]} />
+        <Float
+          object={nodes['Bg Sphere']}
+          position={[-100, -200, 400]}
+          scale={1.5}
+        />
+        <Float
+          object={nodes['Bg Sphere']}
+          position={[-50, 300, 200]}
+          scale={1.5}
+        />
+        <Float object={nodes['Bg Sphere']} position={[-300, -150, 100]} />
         <group ref={phoneObj} name="Phone" position={[0, -200, 0]}>
           <mesh
             name="Body"
@@ -203,11 +274,22 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
             castShadow
             receiveShadow
             position={[-0.22, -0.55, 3.14]}>
-            <Html scale={10} transform>
-              <Embed />
+            <Html scale={10} transform portal={portal} zIndexRange={[100, 0]}>
+              <Embed colorMode={colorMode} context={counterCtx} />
             </Html>
           </Mask>
         </group>
+        <SpotLight
+          ref={light}
+          castShadow
+          penumbra={1.5}
+          distance={1000}
+          angle={0.3}
+          attenuation={5}
+          anglePower={5}
+          intensity={colorMode === 'dark' ? 1 : 0}
+          position={[0, 300, 500]}
+        />
         <animated.group
           ref={characterObj}
           name="Character"
@@ -417,7 +499,7 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
         <OrthographicCamera
           name="Camera"
           makeDefault={true}
-          zoom={1}
+          zoom={zoom}
           far={100000}
           near={-100000}
           position={[0, 0, 1000]}
@@ -425,12 +507,22 @@ const Scene = ({ zoom, currentSpeechBox, ...props }) => {
         />
         <hemisphereLight
           name="Default Ambient Light"
-          intensity={0.75}
+          intensity={colorMode === 'dark' ? 0.0 : 0.75}
           color="#eaeaea"
         />
       </group>
     </>
   )
 }
+
+const Float = ({ object, intensity = 200, rotation = 1, ...props }) => (
+  <FloatImpl
+    floatIntensity={intensity}
+    rotationIntensity={rotation}
+    speed={3}
+    scale={1.5}>
+    <Clone object={object} {...props} />
+  </FloatImpl>
+)
 
 export default Scene
