@@ -86,7 +86,7 @@ const Draft = () => {
     if (progress === 100) {
       setTimeout(() => {
         setLoading(false)
-      }, 2000)
+      }, 500)
     }
   }, [progress])
 
