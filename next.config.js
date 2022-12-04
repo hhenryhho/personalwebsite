@@ -1,6 +1,6 @@
 module.exports = {
-	reactStrictMode: true,
-	images: {
-		domains: ['via.placeholder.com', 'media.discordapp.net'],
-	},
+  reactStrictMode: false,
+  images: {
+    domains: ['via.placeholder.com', 'media.discordapp.net']
+  }
 }

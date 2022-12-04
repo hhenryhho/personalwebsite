@@ -1,11 +1,7 @@
 export const linkStyles = {
   components: {
     Link: {
-      baseStyle: {
-        _hover: {
-          textDecoration: 'none'
-        }
-      }
+      baseStyle: { px: '10px', fontSize: '20px', fontWeight: 'bold' }
     }
   }
 }
