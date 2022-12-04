@@ -383,7 +383,7 @@ const Draft = () => {
           />
         </CustomSlide>
         <CustomSlide active={counterCtx.counter == 5}>
-          <Container maxW="container.xl" overflowY="scroll">
+          <Container maxW="container.xl" overflowY="auto">
             <Flex flexDir="column" h="100%" w="100%" align="center">
               <LinkBox
                 maxW="xl"
@@ -453,7 +453,7 @@ const Draft = () => {
           />
         </CustomSlide>
         <CustomSlide active={counterCtx.counter == 6}>
-          <Container maxW="container.xl" overflowY="scroll">
+          <Container maxW="container.xl" overflowY="auto">
             <Flex flexDir="column" h="100%" w="100%" align="center">
               <LinkBox
                 maxW="xl"
@@ -517,7 +517,7 @@ const Draft = () => {
           />
         </CustomSlide>
         <CustomSlide active={counterCtx.counter == 7}>
-          <Container maxW="container.xl" overflowY="scroll">
+          <Container maxW="container.xl" overflowY="auto">
             <Flex flexDir="column" h="100%" w="100%" align="center">
               <LinkBox
                 maxW="xl"
@@ -581,7 +581,7 @@ const Draft = () => {
           />
         </CustomSlide>
         <CustomSlide active={counterCtx.counter == 8}>
-          <Container maxW="container.xl" overflowY="scroll">
+          <Container maxW="container.xl" overflowY="auto">
             <Flex flexDir="column" h="100%" w="100%" align="center">
               <LinkBox
                 maxW="xl"
