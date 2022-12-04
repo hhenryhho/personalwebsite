@@ -71,7 +71,7 @@ const Embed = ({ colorMode, context }) => {
             </Text>
             <LinkBox as="article">
               <LinkOverlay
-                onClick={() => context.setCounter(4)}
+                onClick={() => context.setCounter(5)}
                 cursor="pointer"
               />
               <Text as="u">Graphic Card Bot</Text>
@@ -86,7 +86,7 @@ const Embed = ({ colorMode, context }) => {
           <Flex flexDir="column" align="center">
             <LinkBox>
               <LinkOverlay
-                onClick={() => context.setCounter(5)}
+                onClick={() => context.setCounter(6)}
                 cursor="pointer"
               />
               <Text as="u">Pathfinding Visualizer</Text>
@@ -101,7 +101,7 @@ const Embed = ({ colorMode, context }) => {
           <Flex flexDir="column" align="center">
             <LinkBox>
               <LinkOverlay
-                onClick={() => context.setCounter(6)}
+                onClick={() => context.setCounter(7)}
                 cursor="pointer"
               />
               <Text as="u">Instagram Clone</Text>
@@ -116,7 +116,7 @@ const Embed = ({ colorMode, context }) => {
           <Flex flexDir="column" align="center">
             <LinkBox>
               <LinkOverlay
-                onClick={() => context.setCounter(7)}
+                onClick={() => context.setCounter(8)}
                 cursor="pointer"
               />
               <Text as="u">Capital One Challenge</Text>
