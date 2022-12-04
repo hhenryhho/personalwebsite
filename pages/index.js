@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState, useContext } from 'react'
 import {
+  Button,
   Center,
   Flex,
   Text,
   chakra,
   Switch,
   Link,
+  Stack,
   Grid,
   GridItem,
   keyframes,
@@ -21,7 +23,8 @@ import {
   LinkOverlay,
   Wrap
 } from '@chakra-ui/react'
-import { SunIcon, MoonIcon } from '@chakra-ui/icons'
+import { FaLinkedin, FaGithub, FaFilePdf } from 'react-icons/fa'
+import { SunIcon, MoonIcon, EmailIcon } from '@chakra-ui/icons'
 import { Canvas } from '@react-three/fiber'
 import { useProgress } from '@react-three/drei'
 import { motion, isValidMotionProp } from 'framer-motion'
@@ -64,12 +67,12 @@ const Draft = () => {
   // Checks if the right or left arrow key is pressed and changes the current speech box
   useEffect(() => {
     if (rightArrow) {
-      if (counterCtx.counter < 3) {
+      if (counterCtx.counter < 4) {
         counterCtx.setCounter(counterCtx.counter + 1)
       }
     } else if (leftArrow) {
       if (counterCtx.counter > 1) {
-        if (counterCtx.counter > 3) {
+        if (counterCtx.counter > 4) {
           counterCtx.setCounter(3)
         } else {
           counterCtx.setCounter(counterCtx.counter - 1)
@@ -209,6 +212,14 @@ const Draft = () => {
               }}>
               Projects
             </Text>
+            <Text
+              as={Link}
+              color={counterCtx.counter === 4 && 'brand.purpleHighlight'}
+              onClick={() => {
+                counterCtx.setCounter(4)
+              }}>
+              Contact Me
+            </Text>
           </Flex>
         </Flex>
         <Flex
@@ -221,7 +232,7 @@ const Draft = () => {
           zIndex="999">
           <ChakraBox
             animate={{
-              height: `${counterCtx.counter * 33.33}%`
+              height: `${counterCtx.counter * 25}%`
             }}
             transition={{ ease: 'easeInOut', duration: 1 }}
             h="0px"
@@ -309,10 +320,69 @@ const Draft = () => {
           <SpeechBox
             phrase="When I am not working, I like to work on small side projects to teach myself new technologies."
             leftButton={() => counterCtx.setCounter(counterCtx.counter - 1)}
+            rightButton={() => counterCtx.setCounter(counterCtx.counter + 1)}
             active={counterCtx.counter == 3}
           />
         </CustomSlide>
         <CustomSlide active={counterCtx.counter == 4}>
+          <Center h="100%" w="100%">
+            <Stack
+              direction={['column', 'column', 'row']}
+              mt={['50px', '100px']}
+              spacing="15px"
+              border="2px"
+              bgColor={colorMode === 'light' ? 'white' : 'black'}
+              shadow="2xl"
+              p="15px">
+              <Button
+                as={Link}
+                href="https://drive.google.com/file/d/1hMK7dfK2RthUn4SdI-KmT5jnr0Dtikyh/view?usp=sharing"
+                target="_blank"
+                leftIcon={<FaFilePdf />}
+                variant="outline"
+                size="md"
+                key="Resume">
+                Resume
+              </Button>
+              <Button
+                as={Link}
+                href="mailto:henryho73@hotmail.com"
+                target="_blank"
+                leftIcon={<EmailIcon />}
+                variant="outline"
+                size="md"
+                key="Email">
+                Email
+              </Button>
+              <Button
+                as={Link}
+                href="https://github.com/hhenryhho"
+                target="_blank"
+                leftIcon={<FaGithub />}
+                variant="outline"
+                size="md"
+                key="Github">
+                Github
+              </Button>
+              <Button
+                as={Link}
+                href="https://www.linkedin.com/in/henh/"
+                leftIcon={<FaLinkedin />}
+                variant="outline"
+                target="_blank"
+                size="md"
+                key="Linkedin">
+                LinkedIn
+              </Button>
+            </Stack>
+          </Center>
+          <SpeechBox
+            phrase="Want to connect? You can find me in these places!"
+            leftButton={() => counterCtx.setCounter(counterCtx.counter - 1)}
+            active={counterCtx.counter == 4}
+          />
+        </CustomSlide>
+        <CustomSlide active={counterCtx.counter == 5}>
           <Container maxW="container.xl" overflowY="scroll">
             <Flex flexDir="column" h="100%" w="100%" align="center">
               <LinkBox
@@ -367,10 +437,10 @@ const Draft = () => {
                   requests look like they were coming from different people, so
                   I used multiple proxies to make the requests look like they
                   were coming from different locations. After a while, they
-                  implemented Google&aposs reCaptcha system, which added another
-                  layer of complexity. I figured out how to bypass this by
-                  researching how the system worked, and managed to consistently
-                  get around it.
+                  implemented Google&apos;s reCaptcha system, which added
+                  another layer of complexity. I figured out how to bypass this
+                  by researching how the system worked, and managed to
+                  consistently get around it.
                 </Text>
               </Flex>
             </Flex>
@@ -379,10 +449,10 @@ const Draft = () => {
             phrase={restockBot.desc}
             subNote={<Heading>{restockBot.name}</Heading>}
             leftButton={() => counterCtx.setCounter(3)}
-            active={counterCtx.counter == 4}
+            active={counterCtx.counter == 5}
           />
         </CustomSlide>
-        <CustomSlide active={counterCtx.counter == 5}>
+        <CustomSlide active={counterCtx.counter == 6}>
           <Container maxW="container.xl" overflowY="scroll">
             <Flex flexDir="column" h="100%" w="100%" align="center">
               <LinkBox
@@ -443,10 +513,10 @@ const Draft = () => {
             phrase={pathfinder.desc}
             subNote={<Heading>{pathfinder.name}</Heading>}
             leftButton={() => counterCtx.setCounter(3)}
-            active={counterCtx.counter == 5}
+            active={counterCtx.counter == 6}
           />
         </CustomSlide>
-        <CustomSlide active={counterCtx.counter == 6}>
+        <CustomSlide active={counterCtx.counter == 7}>
           <Container maxW="container.xl" overflowY="scroll">
             <Flex flexDir="column" h="100%" w="100%" align="center">
               <LinkBox
@@ -479,9 +549,9 @@ const Draft = () => {
                   This was my take-home assignment for the Shopify Front End
                   Developer position in early 2022. The assignment was to build
                   a web app that would allow users to browse through the
-                  NASA&aposs Astronomy Picture of the Day API. I decided to make
-                  it look like an instagram clone, because I thought that it
-                  would be a fun challenge. I ended up making it to the final
+                  NASA&apos;s Astronomy Picture of the Day API. I decided to
+                  make it look like an instagram clone, because I thought that
+                  it would be a fun challenge. I ended up making it to the final
                   round of the interview process, but unfortunately did not get
                   the job.
                 </Text>
@@ -507,10 +577,10 @@ const Draft = () => {
             phrase={shopify.desc}
             subNote={<Heading>{shopify.name}</Heading>}
             leftButton={() => counterCtx.setCounter(3)}
-            active={counterCtx.counter == 6}
+            active={counterCtx.counter == 7}
           />
         </CustomSlide>
-        <CustomSlide active={counterCtx.counter == 7}>
+        <CustomSlide active={counterCtx.counter == 8}>
           <Container maxW="container.xl" overflowY="scroll">
             <Flex flexDir="column" h="100%" w="100%" align="center">
               <LinkBox
@@ -544,7 +614,7 @@ const Draft = () => {
                   Developer position in Summer 2022. The assignment was to build
                   a program that would calculate the max amount of points a
                   person could attain using a list of rules. A terminal based
-                  program would&aposve sufficed, but to add more complexity, I
+                  program would&apos;ve sufficed, but to add more complexity, I
                   added an account and authentication system, working database
                   for storying transactions and connected it all to a visually
                   appealing front-end. I had to use dynamic programming to
@@ -576,7 +646,7 @@ const Draft = () => {
             phrase={capitalone.desc}
             subNote={<Heading>{capitalone.name}</Heading>}
             leftButton={() => counterCtx.setCounter(3)}
-            active={counterCtx.counter == 7}
+            active={counterCtx.counter == 8}
           />
         </CustomSlide>
       </ChakraBox>

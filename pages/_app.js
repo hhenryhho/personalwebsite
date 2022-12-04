@@ -11,7 +11,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <ChakraProvider theme={theme}>
       <Head>
-        <title>Hen&aposs Farmhouse</title>
+        <title>Hen&apos;s Farmhouse</title>
         <link rel="icon" href="hen.png" />
       </Head>
       <CounterContext.Provider value={{ counter, setCounter }}>

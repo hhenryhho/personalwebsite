@@ -2,7 +2,7 @@ export const restockBot = {
   name: 'Graphic Card Bot',
   desc: `A bot that would notify users when certain graphic cards were restocked, 
   and automatically buy them. Generated over $10,000 in revenue and a userbase of 50 clients.`,
-  tech: ['Python', 'Heroku', 'Requests', 'Heroku']
+  tech: ['Python', 'Heroku', 'APIs']
 }
 
 export const pathfinder = {
