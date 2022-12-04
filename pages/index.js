@@ -16,7 +16,10 @@ import {
   useColorMode,
   useColorModeValue,
   Heading,
-  Container
+  Container,
+  LinkBox,
+  LinkOverlay,
+  Wrap
 } from '@chakra-ui/react'
 import { SunIcon, MoonIcon } from '@chakra-ui/icons'
 import { Canvas } from '@react-three/fiber'
@@ -311,14 +314,32 @@ const Draft = () => {
         </CustomSlide>
         <CustomSlide active={counterCtx.counter == 4}>
           <Container maxW="container.xl" overflowY="scroll">
-            <Flex flexDir="column" h="100%" w="100%">
-              <Image
-                src="/projects/monitor.gif"
-                h="90%"
-                w={['100%', '100%', '50%']}
-                py="16px"
-              />
-              <Flex flexDir="column" h="100%" w="100%">
+            <Flex flexDir="column" h="100%" w="100%" align="center">
+              <LinkBox
+                maxW="xl"
+                _hover={{
+                  transform: 'scale(1.05)',
+                  transition: 'all .4s ease'
+                }}>
+                <LinkOverlay
+                  href="https://discord.com/invite/zcNwQT4r9w"
+                  isExternal>
+                  <Image
+                    border="2px"
+                    src="/projects/monitor.gif"
+                    alt="GIF of gpu bot monitor"
+                    shadow="2xl"
+                    borderRadius="lg"
+                    my="16px"
+                  />
+                </LinkOverlay>
+              </LinkBox>
+              <Flex
+                flexDir="column"
+                border="2px"
+                bgColor={colorMode === 'light' ? 'white' : 'black'}
+                shadow="2xl"
+                p="15px">
                 <Heading>About</Heading>
                 <Text>
                   I built this bot in order to monitor the availability of
@@ -330,13 +351,13 @@ const Draft = () => {
                   built a discord bot to notify users when a card was available.
                 </Text>
                 <Heading>Technologies Used</Heading>
-                <Flex>
+                <Wrap>
                   {restockBot.tech.map((tech, index) => (
                     <Tag key={index} mr="4px" mb="4px" variant="outline">
                       {tech}
                     </Tag>
                   ))}
-                </Flex>
+                </Wrap>
                 <Heading>Challenges</Heading>
                 <Text>
                   The biggest challenge was figuring out how to get past
@@ -346,7 +367,7 @@ const Draft = () => {
                   requests look like they were coming from different people, so
                   I used multiple proxies to make the requests look like they
                   were coming from different locations. After a while, they
-                  implemented Google's reCaptcha system, which added another
+                  implemented Google&aposs reCaptcha system, which added another
                   layer of complexity. I figured out how to bypass this by
                   researching how the system worked, and managed to consistently
                   get around it.
@@ -362,6 +383,62 @@ const Draft = () => {
           />
         </CustomSlide>
         <CustomSlide active={counterCtx.counter == 5}>
+          <Container maxW="container.xl" overflowY="scroll">
+            <Flex flexDir="column" h="100%" w="100%" align="center">
+              <LinkBox
+                maxW="xl"
+                _hover={{
+                  transform: 'scale(1.05)',
+                  transition: 'all .4s ease'
+                }}>
+                <LinkOverlay
+                  href="https://hhenryhho.github.io/PathfindingVisualJS/"
+                  isExternal
+                />
+                <Image
+                  border="2px"
+                  src="/projects/pathfinder.gif"
+                  alt="GIF of pathfinder visualizer"
+                  borderRadius="lg"
+                  shadow="2xl"
+                  my="16px"
+                />
+              </LinkBox>
+              <Flex
+                flexDir="column"
+                border="2px"
+                bgColor={colorMode === 'light' ? 'white' : 'black'}
+                shadow="2xl"
+                p="15px">
+                <Heading>About</Heading>
+                <Text>
+                  I built this project to teach myself basic HTML/CSS/JS. I had
+                  just decided to add a major into Computer Science after 2
+                  years of studying Finance, and wanted to learn some basic web
+                  development. Additionally, I was also taking my intro to Data
+                  Structures and Algorithms course, so I wanted to build
+                  something that would help me visualize the algorithms I was
+                  learning.
+                </Text>
+                <Heading>Technologies Used</Heading>
+                <Wrap>
+                  {pathfinder.tech.map((tech, index) => (
+                    <Tag key={index} mr="4px" mb="4px" variant="outline">
+                      {tech}
+                    </Tag>
+                  ))}
+                </Wrap>
+                <Heading>Challenges</Heading>
+                <Text>
+                  Looking back, this project was a bit of a mess. I had no idea
+                  what I was doing, and I was just trying to get something
+                  working. I only had experience with Python at this point, so
+                  figuring out how HTML/CSS/JS worked together was a challenge
+                  in itself.
+                </Text>
+              </Flex>
+            </Flex>
+          </Container>
           <SpeechBox
             phrase={pathfinder.desc}
             subNote={<Heading>{pathfinder.name}</Heading>}
@@ -370,6 +447,62 @@ const Draft = () => {
           />
         </CustomSlide>
         <CustomSlide active={counterCtx.counter == 6}>
+          <Container maxW="container.xl" overflowY="scroll">
+            <Flex flexDir="column" h="100%" w="100%" align="center">
+              <LinkBox
+                maxW="xl"
+                _hover={{
+                  transform: 'scale(1.05)',
+                  transition: 'all .4s ease'
+                }}>
+                <LinkOverlay
+                  href="https://spacestagram-woad.vercel.app/"
+                  isExternal
+                />
+                <Image
+                  border="2px"
+                  src="/projects/shopify.gif"
+                  alt="GIF of Shopify Instagram Clone"
+                  shadow="2xl"
+                  borderRadius="lg"
+                  my="16px"
+                />
+              </LinkBox>
+              <Flex
+                flexDir="column"
+                border="2px"
+                bgColor={colorMode === 'light' ? 'white' : 'black'}
+                shadow="2xl"
+                p="15px">
+                <Heading>About</Heading>
+                <Text>
+                  This was my take-home assignment for the Shopify Front End
+                  Developer position in early 2022. The assignment was to build
+                  a web app that would allow users to browse through the
+                  NASA&aposs Astronomy Picture of the Day API. I decided to make
+                  it look like an instagram clone, because I thought that it
+                  would be a fun challenge. I ended up making it to the final
+                  round of the interview process, but unfortunately did not get
+                  the job.
+                </Text>
+                <Heading>Technologies Used</Heading>
+                <Wrap>
+                  {shopify.tech.map((tech, index) => (
+                    <Tag key={index} mr="4px" mb="4px" variant="outline">
+                      {tech}
+                    </Tag>
+                  ))}
+                </Wrap>
+                <Heading>Challenges</Heading>
+                <Text>
+                  NASA has an extremely slow API, and figuring out how to make
+                  the web app load quickly without making too many requests was
+                  a challenge. I also self-imposed a limit of a day to work on
+                  it, as I was also studying for my exams during this time.
+                </Text>
+              </Flex>
+            </Flex>
+          </Container>
           <SpeechBox
             phrase={shopify.desc}
             subNote={<Heading>{shopify.name}</Heading>}
@@ -378,6 +511,67 @@ const Draft = () => {
           />
         </CustomSlide>
         <CustomSlide active={counterCtx.counter == 7}>
+          <Container maxW="container.xl" overflowY="scroll">
+            <Flex flexDir="column" h="100%" w="100%" align="center">
+              <LinkBox
+                maxW="xl"
+                _hover={{
+                  transform: 'scale(1.05)',
+                  transition: 'all .4s ease'
+                }}>
+                <LinkOverlay
+                  href="https://capitalonetechnical.vercel.app/"
+                  isExternal
+                />
+                <Image
+                  border="2px"
+                  src="/projects/c1tech.png"
+                  alt="GIF of the Capital One Technical Assessment"
+                  shadow="2xl"
+                  borderRadius="lg"
+                  my="16px"
+                />
+              </LinkBox>
+              <Flex
+                flexDir="column"
+                border="2px"
+                bgColor={colorMode === 'light' ? 'white' : 'black'}
+                shadow="2xl"
+                p="15px">
+                <Heading>About</Heading>
+                <Text>
+                  This was my take-home assignment for the Capital One Software
+                  Developer position in Summer 2022. The assignment was to build
+                  a program that would calculate the max amount of points a
+                  person could attain using a list of rules. A terminal based
+                  program would&aposve sufficed, but to add more complexity, I
+                  added an account and authentication system, working database
+                  for storying transactions and connected it all to a visually
+                  appealing front-end. I had to use dynamic programming to
+                  calculate the max amount of points a person could attain, as
+                  many of the rules conflicted with each other.
+                </Text>
+                <Heading>Technologies Used</Heading>
+                <Wrap>
+                  {capitalone.tech.map((tech, index) => (
+                    <Tag key={index} mr="4px" mb="4px" variant="outline">
+                      {tech}
+                    </Tag>
+                  ))}
+                </Wrap>
+                <Heading>Challenges</Heading>
+                <Text>
+                  Figuring out how to create user accounts was definitely
+                  challenging. I had to design a database schema that would
+                  allow me to keep track of users, and also store their
+                  transaction history. Additionally, the problem itself was
+                  hard, because the list of rules to calculate the points
+                  conflicted with each other and required either linear
+                  programming or dynamic programming to solve.
+                </Text>
+              </Flex>
+            </Flex>
+          </Container>
           <SpeechBox
             phrase={capitalone.desc}
             subNote={<Heading>{capitalone.name}</Heading>}

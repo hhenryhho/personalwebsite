@@ -119,7 +119,7 @@ const Embed = ({ colorMode, context }) => {
                 onClick={() => context.setCounter(7)}
                 cursor="pointer"
               />
-              <Text as="u">Credit Points Tracker</Text>
+              <Text as="u">Capital One Challenge</Text>
               <Image
                 h="150px"
                 w="200px"
