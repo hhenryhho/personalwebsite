@@ -154,7 +154,13 @@ const Draft = () => {
             eventSource={domRef}
             eventPrefix="page">
             <Scene
-              zoom={windowHeight > 800 && windowWidth > 800 ? 1 : 0.7}
+              zoom={
+                windowHeight > 1100 && windowWidth > 800
+                  ? 1
+                  : windowHeight > 800
+                  ? 0.7
+                  : 0.5
+              }
               currentSpeechBox={counterCtx.counter}
               portal={domRef}
             />
