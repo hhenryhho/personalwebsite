@@ -13,6 +13,20 @@ function MyApp({ Component, pageProps }) {
       <Head>
         <title>Hen&apos;s Farmhouse</title>
         <link rel="icon" href="hen.png" />
+        <meta property="og:title" content="Hen's Farmhouse" />
+        <meta
+          property="og:image"
+          content="https://cdn.discordapp.com/attachments/940143076188508241/1049389626676232212/image.png"
+        />
+        <meta property="og:image:type" content="image/png" />
+        <meta
+          property="og:description"
+          content="Portfolio website for Henry Ho"
+        />
+        <meta property="og:url" content="https://www.henryho.dev/" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="627" />
+        <meta property="og:type" content="website" />
       </Head>
       <CounterContext.Provider value={{ counter, setCounter }}>
         <Fonts />
