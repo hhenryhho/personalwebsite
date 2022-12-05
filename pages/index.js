@@ -317,6 +317,9 @@ const Draft = () => {
           </Flex>
           <SpeechBox
             phrase="I am an incoming Software Engineer at Amazon. Here are some of my previous roles."
+            subNote={
+              colorMode === 'dark' && <Text>Try moving the mouse around!</Text>
+            }
             leftButton={() => counterCtx.setCounter(counterCtx.counter - 1)}
             rightButton={() => counterCtx.setCounter(counterCtx.counter + 1)}
             active={counterCtx.counter === 2}
