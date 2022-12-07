@@ -129,8 +129,8 @@ const Draft = () => {
         </Flex>
       </Center>
       <ChakraBox
-        ref={domRef}
         id="main"
+        ref={domRef}
         initial={{ opacity: 0 }}
         animate={{
           opacity: loading ? 0 : 1
@@ -188,7 +188,7 @@ const Draft = () => {
         </Flex>
         <Flex
           id="links"
-          visibility={['hidden', 'hidden', 'visible']}
+          visibility={['hidden', 'hidden', 'hidden', 'visible']}
           position="fixed"
           bottom="48px"
           right="48px"

@@ -22,15 +22,15 @@ const SpeechBox = ({ phrase, subNote, leftButton, rightButton, active }) => {
   return (
     <Flex flexDir="column">
       <Flex
-        w={['100vw', '100vw', '500px']}
+        w={['100vw', '100vw', '100vw', '500px']}
         justify="center"
         visibility={['hidden', 'hidden', 'visible']}>
         {subNote}
       </Flex>
       <Flex
         position="relative"
-        h={['130px', '130px', '130px']}
-        w={['100vw', '100vw', '500px']}
+        h="130px"
+        w={['100vw', '100vw', '100vw', '500px']}
         justify="center"
         align="center"
         border="2px"

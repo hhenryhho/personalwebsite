@@ -54,7 +54,7 @@ const Scene = ({ zoom, portal, ...props }) => {
   const counterCtx = useContext(CounterContext)
 
   const { position } = useSpring({
-    position: counterCtx.counter > 1 ? [0, 250, 0] : [0, 0, 0],
+    position: counterCtx.counter > 1 ? [0, 350, 0] : [0, 0, 0],
     config: {
       duration: 1000,
       easing: easings.easeInOutBack
@@ -162,7 +162,7 @@ const Scene = ({ zoom, portal, ...props }) => {
     if (phoneObj.current) {
       if (counterCtx.counter === 3) {
         phoneObj.current.scale.lerp(new Vector3(5, 5, 5), lerpFactor) // Scale in phone
-        phoneObj.current.position.lerp(new Vector3(0, 0, 0), lerpFactor) // Move phone to center
+        phoneObj.current.position.lerp(new Vector3(0, 150, 0), lerpFactor) // Move phone to center
       } else {
         phoneObj.current.scale.lerp(new Vector3(0, 0, 0), lerpFactor) // Scale out phone
         phoneObj.current.position.lerp(new Vector3(0, -200, 0), lerpFactor) // Move phone out of view
@@ -190,6 +190,7 @@ const Scene = ({ zoom, portal, ...props }) => {
   return (
     <>
       <group ref={sceneObj} {...props} dispose={null}>
+        <boxGeometry args={[100, 200, 200]} />
         <directionalLight
           name="Directional Light 2"
           intensity={1.5}

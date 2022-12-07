@@ -22,7 +22,7 @@ const CustomSlide = ({ active, children }) => {
         align="center"
         h="100vh"
         w="100%"
-        pb={['0px', '0px', '100px']}>
+        pb={['0px', '0px', '0px', '80px']}>
         {children}
       </Flex>
     </ChakraBox>
