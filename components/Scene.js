@@ -31,9 +31,7 @@ const lerpFactor = 0.05 // Higher value = faster lerp
  * @param {MutableRefObject}  portal            a reference to where the Embed component should be portal'd to
  */
 const Scene = ({ zoom, portal, ...props }) => {
-  const { nodes, materials } = useSpline(
-    'https://prod.spline.design/23zzRH2Ogn3ixUwa/scene.splinecode'
-  )
+  const { nodes, materials } = useSpline('scene.splinecode')
   const colorMode = useColorModeValue('light', 'dark')
   const mousePosition = useMousePosition()
   const touchPosition = useTouchPosition()
