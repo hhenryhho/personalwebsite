@@ -3,6 +3,7 @@ import { ChakraProvider } from '@chakra-ui/react'
 import { theme } from '../theme/theme'
 import Head from 'next/head'
 import Fonts from '../util/activateFonts'
+import { Analytics } from '@vercel/analytics/react'
 
 export const CounterContext = createContext()
 
@@ -30,6 +31,7 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <CounterContext.Provider value={{ counter, setCounter }}>
         <Fonts />
+        <Analytics />
         <Component {...pageProps} />
       </CounterContext.Provider>
     </ChakraProvider>
