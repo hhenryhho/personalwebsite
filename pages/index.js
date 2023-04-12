@@ -316,7 +316,7 @@ const Draft = () => {
             </Grid>
           </Flex>
           <SpeechBox
-            phrase="I am an incoming Software Engineer at Amazon. Here are some of my previous roles."
+            phrase="I am a Software Engineer at Amazon. Here are some of my previous roles."
             subNote={
               colorMode === 'dark' && <Text>Try moving the mouse around!</Text>
             }
@@ -345,7 +345,7 @@ const Draft = () => {
               p="15px">
               <Button
                 as={Link}
-                href="https://drive.google.com/file/d/1hMK7dfK2RthUn4SdI-KmT5jnr0Dtikyh/view?usp=sharing"
+                href="https://drive.google.com/file/d/1lqLWNWLdCbB61EhIvt6Z6u9dPSSx5brA/view?usp=share_link"
                 target="_blank"
                 leftIcon={<FaFilePdf />}
                 variant="outline"
